@@ -49,7 +49,7 @@ def box_center(box_x1y1x2y2):
     return player_center_xy
 
 def read_image_path(match_path):   
-    match_path = {}
+    match_images = {}
     for current_dir, dirs, files in os.walk(match_path):
         # debug(current_dir)
         # debug(dirs)
@@ -59,8 +59,8 @@ def read_image_path(match_path):
                 frame_number = int(os.path.splitext(file_name)[0])
                 # debug(frame_number,file_name)
                 file_path = os.path.join(current_dir, file_name)
-                match_path[frame_number] = file_path
-    return match_path
+                match_images[frame_number] = file_path
+    return match_images
     
 players_colors_bgr = {
     0: (3,252,223),
@@ -83,14 +83,15 @@ match_name = os.path.basename(match_path)
 outdir = 'out'
 os.makedirs(outdir, exist_ok=True)
 match_frames = read_gt_txt(gt_txt_path=markup_path)
+match_images = read_image_path(match_path=match_path)
 # дз: вынести слудующие строки(74-85) которые читают пути до изображений из папки в новую функцию read_image_path(match_path)
 
 for frame_number , frame_players in match_frames.items():# мы ходим по кадрам , для каждого кадра  получаем позиции всех игроков 
     # print('frame number:{:06d}'.format(frame_number))
     # print(frame_players)
-    if frame_number not in match_path.keys():
+    if frame_number not in match_images.keys():
         continue
-    img = cv2.imread(match_path[frame_number])
+    img = cv2.imread(match_images[frame_number])
     img2draw = img.copy()
     for player_id, player_position_x1y1x2y2 in frame_players.items():# ходим по игрокам на текущем кадре
         player_id_str = str(player_id)
@@ -101,7 +102,7 @@ for frame_number , frame_players in match_frames.items():# мы ходим по 
             img2draw,
             center=player_center_xy, # положение центра кружочка по ширине и высоте
             radius=3,
-            color=players_colors_rgb[player_id],
+            color=players_colors_bgr[player_id],
             thickness=5
         )
         top_left_xy = (player_position_x1y1x2y2[0],player_position_x1y1x2y2[1])
@@ -140,7 +141,7 @@ for frame_number , frame_players in match_frames.items():# мы ходим по 
             top_left_xy[0] + round(width / 4),
             top_left_xy[1] - 25
         )
-        player_color = players_colors_rgb[player_id]
+        player_color = players_colors_bgr[player_id]
         cv2.rectangle(
             img2draw,
             pt1=top_left_xy, 
