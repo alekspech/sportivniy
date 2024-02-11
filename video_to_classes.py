@@ -3,6 +3,7 @@ import cv2
 from datetime import datetime
 from varname.helpers import debug
 import json
+import shutil
 
 def curDateTime():
     now = datetime.now()
@@ -41,6 +42,7 @@ while is_programme_finished == False:
         current_image_id  = 0 
     image_name = images_names[current_image_id]
     image_path = os.path.join(images_path, image_name)
+    save_path = images_path + '_saved'
     img  = cv2.imread(image_path)
     img2draw = img.copy()
 
@@ -106,3 +108,12 @@ while is_programme_finished == False:
         with open(labels_path, 'w') as f:
             json.dump(frames_labels, f, indent=4)
             print('labels saved to', labels_path)
+    elif last_pressed == 'S': #  сохранить изображение в директории по имени класса
+        shutil.rmtree(save_path)
+        for image_name, label in frames_labels.items():        
+            image_save_dir = os.path.join(save_path, label) 
+            os.makedirs(image_save_dir, exist_ok=True)
+            image_save_path = os.path.join(image_save_dir,image_name)
+            shutil.copyfile(os.path.join(images_path, image_name), image_save_path)
+        print('images saved to ', save_path)
+        
