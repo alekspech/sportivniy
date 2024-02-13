@@ -30,16 +30,6 @@ video_path = '/Users/ila/sasha_the_coder/datasets/videos/chekanka_001.mp4'
 # images_path = '/Users/ila/sasha_the_coder/datasets/images/test'
 images_path = '/Users/ila/sasha_the_coder/datasets/images/chekanka_001'
 ball_images_path = '/Users/ila/sasha_the_coder/datasets/images/chekanka_001_saved/chekanka'
-frames_labels = {}
-for image_name in sorted(os.listdir(ball_images_path)):
-    frames_labels[image_name] = 'unwatched'
-current_image_id = 0 
-labels_path = ball_images_path + '_ball_labels.json'
-if os.path.isfile(labels_path):
-    with open(labels_path, 'r') as f:
-        frames_labels = json.load(f)
-        print('labels loaded from file',labels_path)
-is_programme_finished = False
 frame_from = 943
 frame_to =  1038
 for image_name in sorted(os.listdir(ball_images_path)):
@@ -50,16 +40,20 @@ for image_name in sorted(os.listdir(ball_images_path)):
     print(frame_number)
     image_path = os.path.join(ball_images_path, image_name)
     img = cv2.imread(image_path, flags=1)
+    img2draw = img.copy()
     print(img.shape)
     # cv2.imshow('img chorno-bely', img2draw)
     # cv2.waitKey(200)
     window_name = 'ball drawer'
     cv2.namedWindow(window_name)
     cv2.setMouseCallback(window_name, mouse)
-    last_pressed = 0
-    while last_pressed != 'q':
-        img2draw = img.copy()
-
+    last_pressed_key = 0
+    while last_pressed_key != 'q':
+        cv2.imshow(window_name, img2draw)
+        last_pressed_key = cv2.waitKeyEx(-1)
+        debug(last_pressed_key)
+        last_pressed = chr(last_pressed_key)
+        debug(current_x , current_y)
         if current_x is not None:
             cv2.circle(
                 img2draw,
@@ -68,17 +62,3 @@ for image_name in sorted(os.listdir(ball_images_path)):
                 color=blue_color,
                 thickness=5
             )
-            cv2.circle(
-                img2draw,
-                center=(current_x, current_y), # положение центра кружочка по ширине и высоте
-                radius=1,
-                color=blue_color,
-                thickness=5
-            )
-            frames_labels[image_name] = (current_x, current_y)
-            with open(labels_path, 'w') as f:
-                json.dump(frames_labels, f, indent=4)
-                print('labels saved to', labels_path)
-        cv2.imshow(window_name, img2draw)
-        last_pressed_key = cv2.waitKeyEx(-1)
-        last_pressed = chr(last_pressed_key)
