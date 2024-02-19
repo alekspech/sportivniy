@@ -91,13 +91,13 @@ for image_name in sorted(os.listdir(ball_images_path)):
             with open(labels_path, 'w') as f:
                 json.dump(frames_labels, f, indent=4)
                 print('labels saved to', labels_path)
-        lastast_x_text_position = 10 
+        last_x_text_position = 10 
         last_y_text_position = 25
         label_info  = '{} = {}'.format(image_name, frames_labels[image_name])
         cv2.putText(
             img2draw,
             label_info,
-            org=(lastast_x_text_position , last_y_text_position ),
+            org=(last_x_text_position , last_y_text_position ),
             fontFace=cv2.FONT_HERSHEY_COMPLEX,
             fontScale=1,
             color=(248,252,3),
