@@ -56,8 +56,23 @@ for image_name in sorted(os.listdir(ball_images_path)):
     last_pressed = 0
     while last_pressed != 'q':
         img2draw = img.copy()
-
-        if current_x is not None:
+        label = frames_labels[image_name]
+        if label != 'unwatched': # если мы до этого разметили этот кадр
+            cv2.circle(
+                img2draw,
+                center=(label[0], label[1]), # положение центра кружочка по ширине и высоте
+                radius=40,
+                color=red_color,
+                thickness=5
+            )
+            cv2.circle(
+                img2draw,
+                center=(label[0], label[1]), # положение центра кружочка по ширине и высоте
+                radius=1,
+                color=red_color,
+                thickness=5
+            )
+        if current_x is not None: # если мы сейчас нажали на мяч
             cv2.circle(
                 img2draw,
                 center=(current_x, current_y), # положение центра кружочка по ширине и высоте
