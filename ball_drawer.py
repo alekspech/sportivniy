@@ -42,10 +42,19 @@ if os.path.isfile(labels_path):
 is_programme_finished = False
 frame_from = 943
 frame_to =  1038
-for image_name in sorted(os.listdir(ball_images_path)):
+images_names = sorted(os.listdir(ball_images_path))
+images_count = len(images_names)
+while is_programme_finished == False:
+    if current_image_id < 0:
+        current_image_id = images_count - 1
+    elif current_image_id >= images_count - 1:
+        current_image_id  = 0 
+    image_name = images_names[current_image_id]
     frame_name, extention = os.path.splitext(image_name)
     frame_number = int(frame_name)
     if frame_number < frame_from or frame_number > frame_to:
+        current_image_id += 1
+        print('frame {} not in interval'.format(frame_number))
         continue
     print(frame_number)
     image_path = os.path.join(ball_images_path, image_name)
@@ -54,7 +63,7 @@ for image_name in sorted(os.listdir(ball_images_path)):
     cv2.namedWindow(window_name)
     cv2.setMouseCallback(window_name, mouse)
     last_pressed = 0
-    while last_pressed != 'q':
+    while last_pressed != 'q':   # рисование мяча 
         img2draw = img.copy()
         label = frames_labels[image_name]
         if label != 'unwatched': # если мы до этого разметили этот кадр
@@ -88,9 +97,10 @@ for image_name in sorted(os.listdir(ball_images_path)):
                 thickness=5
             )
             frames_labels[image_name] = (current_x, current_y)
-            with open(labels_path, 'w') as f:
-                json.dump(frames_labels, f, indent=4)
-                print('labels saved to', labels_path)
+            # with open(labels_path, 'w') as f:
+            #     json.dump(frames_labels, f, indent=4)
+            #     print('labels saved to', labels_path)
+        current_x, current_y = None, None    
         last_x_text_position = 10 
         last_y_text_position = 25
         label_info  = '{} = {}'.format(image_name, frames_labels[image_name])
@@ -104,8 +114,37 @@ for image_name in sorted(os.listdir(ball_images_path)):
             thickness=5
         )
         last_y_text_position += 50
+        id_info = 'next image :{}'.format(images_names[current_image_id])
+        cv2.putText(
+            img2draw,
+            id_info,
+            org=(last_x_text_position , last_y_text_position ),
+            fontFace=cv2.FONT_HERSHEY_COMPLEX,
+            fontScale=1,
+            color=(248,252,3),
+            thickness=5
+        )
+        last_y_text_position += 50
         cv2.imshow(window_name, img2draw)
         last_pressed_key = cv2.waitKeyEx(-1)
         last_pressed = chr(last_pressed_key)
         debug(last_pressed)
-        
+        if last_pressed == 'a':
+            is_programme_finished = True
+            break
+        elif last_pressed == 'h':   #      left
+            current_image_id -= 1
+            continue
+        elif last_pressed == 'l':   #      right
+            current_image_id += 1
+            continue
+        elif last_pressed == 'H': #  left
+            current_image_id -= 100
+            continue 
+        elif last_pressed == 'L': #  right
+            current_image_id += 100
+            continue
+        elif last_pressed == 'S': #  сохранить изменения в разметке
+            with open(labels_path, 'w') as f:
+                json.dump(frames_labels, f, indent=4)
+                print('labels saved to', labels_path)
