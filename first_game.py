@@ -37,4 +37,4 @@ while running:
     dt = clock.tick(60) / 1000
     print(dt)
 
-    pygame.quit()
+pygame.quit()
