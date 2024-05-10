@@ -1,4 +1,5 @@
 import pygame
+from varname.helpers import debug
 
 pygame.init()
 screen = pygame.display.set_mode((1280,720)) #TODO вынести ширину и высоту экрана в переменные 
@@ -18,12 +19,24 @@ while is_game_running: # основной цикл игры
             is_game_running = False
 
     screen.fill('blue')
-    pygame.draw.circle( 
+    mouse_position = pygame.mouse.get_pos()
+    debug(mouse_position)
+    player_color = 'green'
+    player = pygame.draw.circle( 
         screen,
-        'green',
+        player_color,
         player_position,
         radius = 20
     ) # cоздание игрока
+    is_mouse_on_player = player.collidepoint(mouse_position)
+    if is_mouse_on_player:
+        player_color = 'red'
+        player = pygame.draw.circle( 
+            screen,
+            player_color,
+            player_position,
+            radius = 20
+        ) # cоздание игрока
     player_speed = 200
     
 
