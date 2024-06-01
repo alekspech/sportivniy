@@ -2,6 +2,7 @@ import pygame
 from varname.helpers import debug
 import random
 from game.player import PlayerKapibara
+from game.wall import Wall
 
 pygame.init()
 screen = pygame.display.set_mode((1280,720)) #TODO вынести ширину и высоту экрана в переменные 
@@ -12,7 +13,13 @@ player_speed = 200
 player_img_path = 'textures/kapibara.jpeg'
 player = PlayerKapibara(img_path=player_img_path)
 npc_group = pygame.sprite.Group()
+walls_group = pygame.sprite.Group()
 npc_group.add(player)
+walls_group.add(
+    [
+        Wall(x=300,y=200,width=5,height=2000,color='black' )
+    ]
+)
 game_frame_number = 0
 heals = []
 while is_game_running: # основной цикл игры
@@ -48,8 +55,13 @@ while is_game_running: # основной цикл игры
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
         dx += player_speed * dt
     player.rect = player.rect.move(dx, dy)
+    if pygame.sprite.spritecollideany(player, walls_group):
+        player.rect = player.rect.move(-dx, -dy)
+
     npc_group.update()
     npc_group.draw(screen)
+    walls_group.update()
+    walls_group.draw(screen)
     # NPC_teammate_position = pygame.Vector2(
     #     player_position.x+30,
     #     player_position.y-20
