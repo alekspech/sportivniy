@@ -17,9 +17,12 @@ walls_group = pygame.sprite.Group()
 npc_group.add(player)
 walls_group.add(
     [
-        Wall(x=300,y=200,width=5,height=2000,color='black' ),
-        Wall(x=400,y=200,width=1000,height=2000,color='black' ),
+        # Wall(x=300,y=200,width=5,height=2000,color='black' ),
+        # Wall(x=400,y=200,width=1000,height=2000,color='black' ),
         Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
+        Wall(x=1,y=720,width=10000,height=2,color='black' ),
+        Wall(x=0,y=1,width=2,height=10000,color='black' ),
+        Wall(x=1280,y=1,width=2,height=10000,color='black' ),
     ]
 )
 game_frame_number = 0
