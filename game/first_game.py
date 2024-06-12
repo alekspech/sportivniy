@@ -5,7 +5,7 @@ from game.player import PlayerKapibara
 from game.wall import Wall
 
 pygame.init()
-screen = pygame.display.set_mode((1280,720)) #TODO вынести ширину и высоту экрана в переменные 
+screen = pygame.display.set_mode((1280,720)) #TODO вынести ширину и высоту экрана в переменные  
 clock = pygame.time.Clock()
 is_game_running = True
 dt = 0
@@ -15,14 +15,16 @@ player = PlayerKapibara(img_path=player_img_path)
 npc_group = pygame.sprite.Group()
 walls_group = pygame.sprite.Group()
 npc_group.add(player)
+screen_width = screen.get_width()
+screen_height = screen.get_height()
 walls_group.add(
     [
         # Wall(x=300,y=200,width=5,height=2000,color='black' ),
         # Wall(x=400,y=200,width=1000,height=2000,color='black' ),
         Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
-        Wall(x=1,y=720,width=10000,height=2,color='black' ),
-        Wall(x=0,y=1,width=2,height=10000,color='black' ),
-        Wall(x=1280,y=1,width=2,height=10000,color='black' ),
+        Wall(x=1,y=screen_height+1,width=10000,height=2,color='black' ),
+        Wall(x=-1,y=1,width=2,height=10000,color='black' ),
+        Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
     ]
 )
 game_frame_number = 0
