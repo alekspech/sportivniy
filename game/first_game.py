@@ -2,7 +2,7 @@ import pygame
 from varname.helpers import debug
 import random
 from game.player import PlayerKapibara
-from game.wall import Wall
+from game.wall import Wall, generate_random_walls
 from game.npc import NPC
 
 pygame.init()
@@ -18,7 +18,8 @@ npc1_img_path = 'textures/NPC1.jpeg'
 player = PlayerKapibara(
     img_path=player_img_path,
     player_x=0,
-    player_y=screen_height
+    player_y=screen_height,
+    screen_h=screen_height
 )
 npc1 = NPC(
     img_path=npc1_img_path,
@@ -34,6 +35,7 @@ walls_group.add(
         Wall(x=1,y=screen_height+1,width=10000,height=2,color='black' ),
         Wall(x=-1,y=1,width=2,height=10000,color='black' ),
         Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
+        *generate_random_walls(screen_width, screen_height, num_segments=3)
     ]
 )
 game_frame_number = 0
@@ -59,6 +61,8 @@ while is_game_running: # основной цикл игры
         dx -= player_speed * dt
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
         dx += player_speed * dt
+    if keys[pygame.K_SPACE]:
+        player.jump()
     player.rect = player.rect.move(dx, dy)
     if pygame.sprite.spritecollideany(player, walls_group):
         player.rect = player.rect.move(-dx, -dy)
