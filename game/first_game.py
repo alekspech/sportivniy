@@ -4,11 +4,12 @@ import random
 from game.player import PlayerKapibara
 from game.wall import Wall
 from game.npc import NPC
+from game.game_settings import screen_height, screen_width
 
 pygame.init()
-screen = pygame.display.set_mode((1280,720)) #TODO вынести ширину и высоту экрана в переменные  
-screen_width = screen.get_width()
-screen_height = screen.get_height()
+screen = pygame.display.set_mode((screen_width,screen_height))   
+# screen_width = screen.get_width()
+# screen_height = screen.get_height()
 clock = pygame.time.Clock()
 is_game_running = True
 dt = 0
@@ -59,6 +60,8 @@ while is_game_running: # основной цикл игры
         dx -= player_speed * dt
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
         dx += player_speed * dt
+    if keys[pygame.K_SPACE]:
+        player.jump()
     player.rect = player.rect.move(dx, dy)
     if pygame.sprite.spritecollideany(player, walls_group):
         player.rect = player.rect.move(-dx, -dy)
