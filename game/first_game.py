@@ -2,6 +2,7 @@ import pygame
 from varname.helpers import debug
 import random
 from game.player import PlayerKapibara
+from game.bullet import Bullet
 from game.wall import Wall
 from game.npc import NPC
 from game.game_settings import screen_height, screen_width
@@ -28,6 +29,7 @@ npc1 = NPC(
 )
 npc_group = pygame.sprite.Group()
 walls_group = pygame.sprite.Group()
+bullets_group = pygame.sprite.Group()
 npc_group.add([player, npc1])
 walls_group.add(
     [
@@ -40,6 +42,7 @@ walls_group.add(
 game_frame_number = 0
 heals = []
 while is_game_running: # основной цикл игры
+    dt = clock.tick(60) / 1000
     game_frame_number += 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -52,16 +55,23 @@ while is_game_running: # основной цикл игры
     keys = pygame.key.get_pressed()
     dx = 0
     dy = 0 #премешение игрока по иксу и по игрику
-    # if keys[pygame.K_w] or keys[pygame.K_UP]:
-    #     dy -= player_speed * dt 
+    if keys[pygame.K_w] or keys[pygame.K_UP]:
+        player.direction.y = -1 
     if keys[pygame.K_s] or keys[pygame.K_DOWN]:
         dy += player_speed * dt
+        player.direction.y = 1 
     if keys[pygame.K_a] or keys[pygame.K_LEFT]:
         dx -= player_speed * dt
+        player.direction.x = -1 
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
         dx += player_speed * dt
+        player.direction.x = 1 
     if keys[pygame.K_SPACE]:
         player.jump()
+    if keys[pygame.K_RETURN]:
+        bullets_group.add(
+            Bullet(position=player.rect.center, direction=player.last_direction)
+        )
     player.rect = player.rect.move(dx, dy)
     if pygame.sprite.spritecollideany(player, walls_group):
         player.rect = player.rect.move(-dx, -dy)
@@ -70,7 +80,8 @@ while is_game_running: # основной цикл игры
     npc_group.draw(screen)
     walls_group.update()
     walls_group.draw(screen)
+    bullets_group.update(dt)
+    bullets_group.draw(screen)
     pygame.display.flip() #отрисовка обьектов 
-    dt = clock.tick(60) / 1000
     
 pygame.quit()

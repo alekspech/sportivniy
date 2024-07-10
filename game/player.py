@@ -15,10 +15,13 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.jump_power = -10
         self.change_x = 0
         self.change_y = 0
+        self.direction = pygame.math.Vector2(0,0)
+        self.last_direction = pygame.math.Vector2(1,0)  #default right
 
     def jump(self):
         if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
             self.change_y = self.jump_power
+        return self.change_y
 
     def update(self):
         self.change_y += gravity
@@ -28,3 +31,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
             self.change_y = 0
             self.rect.y = screen_height - self.rect.height
+        
+        if self.direction.length() > 0:
+            self.direction = self.direction.normalize()
+            self.last_direction = self.direction
