@@ -5,18 +5,24 @@ from game.player import PlayerKapibara
 from game.bullet import Bullet
 from game.wall import Wall
 from game.npc import NPC
-from game.game_settings import screen_height, screen_width
+from game.game_settings import *
 
 pygame.init()
-screen = pygame.display.set_mode((screen_width,screen_height))   
-# screen_width = screen.get_width()
-# screen_height = screen.get_height()
+if is_fullscreen:
+    screen = pygame.display.set_mode(
+        (screen_width,screen_height),
+        pygame.FULLSCREEN | pygame.SCALED
+    )   
+else:
+    screen = pygame.display.set_mode((screen_width,screen_height))  
 clock = pygame.time.Clock()
 is_game_running = True
 dt = 0
-player_speed = 200
+bg_path = 'textures/bg1.png'
 player_img_path = 'textures/kapibara.jpeg'
 npc1_img_path = 'textures/NPC1.jpeg'
+bg = pygame.image.load(bg_path)
+bg = pygame.transform.scale(bg, (screen_width, screen_height))
 player = PlayerKapibara(
     img_path=player_img_path,
     player_x=0,
@@ -49,6 +55,9 @@ while is_game_running: # основной цикл игры
             is_game_running = False
 
     screen.fill('blue')
+    bg_h = screen.get_height()-bg.get_height()
+    bg_w = screen.get_width()-bg.get_width()
+    screen.blit(bg, (bg_w, bg_h))
     mouse_position = pygame.mouse.get_pos()
     player_color = 'green'
 
