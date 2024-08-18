@@ -18,9 +18,7 @@ else:
 clock = pygame.time.Clock()
 is_game_running = True
 dt = 0
-bg_path = 'textures/bg1.png'
-player_img_path = 'textures/kapibara.jpeg'
-npc1_img_path = 'textures/NPC1.jpeg'
+text_generator = pygame.font.SysFont('Comic Sans MS', size=30)
 bg = pygame.image.load(bg_path)
 bg = pygame.transform.scale(bg, (screen_width, screen_height))
 player = PlayerKapibara(
@@ -54,43 +52,18 @@ while is_game_running: # основной цикл игры
         if event.type == pygame.QUIT:
             is_game_running = False
 
-    screen.fill('blue')
     bg_h = screen.get_height()-bg.get_height()
     bg_w = screen.get_width()-bg.get_width()
     screen.blit(bg, (bg_w, bg_h))
-    mouse_position = pygame.mouse.get_pos()
-    player_color = 'green'
-
-    keys = pygame.key.get_pressed()
-    dx = 0
-    dy = 0 #премешение игрока по иксу и по игрику
-    if keys[pygame.K_w] or keys[pygame.K_UP]:
-        player.direction.y = -1 
-    if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-        dy += player_speed * dt
-        player.direction.y = 1 
-    if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-        dx -= player_speed * dt
-        player.direction.x = -1 
-    if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-        dx += player_speed * dt
-        player.direction.x = 1 
-    if keys[pygame.K_SPACE]:
-        player.jump()
-    if keys[pygame.K_RETURN]:
-        bullets_group.add(
-            Bullet(position=player.rect.center, direction=player.last_direction)
-        )
-    player.rect = player.rect.move(dx, dy)
-    if pygame.sprite.spritecollideany(player, walls_group):
-        player.rect = player.rect.move(-dx, -dy)
-
-    npc_group.update()
+    
+    npc_group.update(dt, bullets_group, walls_group)
     npc_group.draw(screen)
     walls_group.update()
     walls_group.draw(screen)
     bullets_group.update(dt)
     bullets_group.draw(screen)
+    text = text_generator.render('{}'.format(player.rect.center), 1,(255,255,255))
+    screen.blit(text, dest=player.rect.center)
     pygame.display.flip() #отрисовка обьектов 
     
 pygame.quit()
