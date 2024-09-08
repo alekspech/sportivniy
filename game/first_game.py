@@ -28,13 +28,20 @@ player = PlayerKapibara(
 )
 npc1 = NPC(
     img_path=npc1_img_path,
-    player_x=screen_width-100,
-    player_y=screen_height
+    spawn_x=screen_width-100,
+    spawn_y=screen_height,
+    player=player
+)
+npc2 = NPC(
+    img_path=npc1_img_path,
+    spawn_x=screen_width-50,
+    spawn_y=screen_height,
+    player=player
 )
 npc_group = pygame.sprite.Group()
 walls_group = pygame.sprite.Group()
 bullets_group = pygame.sprite.Group()
-npc_group.add([player, npc1])
+npc_group.add([player, npc1, npc2])
 walls_group.add(
     [
         Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
@@ -63,7 +70,7 @@ while is_game_running: # основной цикл игры
     bullets_group.update(dt)
     bullets_group.draw(screen)
     text = text_generator.render('{}'.format(player.rect.center), 1,(255,255,255))
-    screen.blit(text, dest=player.rect.center)
+    screen.blit(text, dest=(0,0))
     pygame.display.flip() #отрисовка обьектов 
     
 pygame.quit()
