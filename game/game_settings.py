@@ -10,6 +10,7 @@ player_jump_power = -10
 bg_path = 'textures/bg1.png'
 player_img_path = 'textures/kapibara.jpeg'
 npc1_img_path = 'textures/NPC1.jpeg'
+npc2_img_path = 'textures/NPC2.png'
 npc_attack_range = 30
 npc_hp = 100
 weapon_attack = 30
