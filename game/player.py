@@ -68,3 +68,6 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.rect = self.rect.move(dx, dy)
         if pygame.sprite.spritecollideany(self, walls_group):
             self.rect = self.rect.move(-dx, -dy)
+
+    def draw_hp(self, screen):
+        hp_position = self.rect.top

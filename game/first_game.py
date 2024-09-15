@@ -65,12 +65,14 @@ while is_game_running: # основной цикл игры
     
     npc_group.update(dt, bullets_group, walls_group)
     npc_group.draw(screen)
+    for npc in npc_group:
+        npc.draw_hp(screen)
     walls_group.update()
     walls_group.draw(screen)
     bullets_group.update(dt)
     bullets_group.draw(screen)
     text = text_generator.render('{}'.format(player.rect.center), 1,(255,255,255))
     screen.blit(text, dest=(0,0))
-    pygame.display.flip() #отрисовка обьектов 
+    pygame.display.flip() #отрисовка обьектов
     
 pygame.quit()

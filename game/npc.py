@@ -13,6 +13,7 @@ class NPC(pygame.sprite.Sprite):
         self.rect.y = spawn_y - self.rect.height
         self.change_x = 0
         self.change_y = 0
+        self.hp = npc_hp
         self.speed = npc_speed
         self.player = player #ссылка на игрока
 
@@ -36,3 +37,23 @@ class NPC(pygame.sprite.Sprite):
             movement = direction * self.speed * dt
             self.rect.x += movement.x
             self.rect.y += movement.y
+        
+        bullet = pygame.sprite.spritecollideany(self, bullets_group)
+        if bullet is not None:
+            bullets_group.remove(bullet)
+            self.hp -= weapon_attack
+            self.speed -= weapon_attack
+            if self.speed < 0:
+                self.speed = 0
+            if self.hp <= 0:
+                self.speed = 0
+
+    def draw_hp(self, screen):
+        hp_position = self.rect.center       
+        text_generator = pygame.font.SysFont('Comic Sans MS', size=20)
+        text = text_generator.render(
+            '{}'.format(self.hp), 1,(255,0,0)
+        )
+        print(hp_position)
+        screen.blit(text, dest = hp_position)
+   
