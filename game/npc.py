@@ -42,6 +42,8 @@ class NPC(pygame.sprite.Sprite):
         if bullet is not None:
             bullets_group.remove(bullet)
             self.hp -= weapon_attack
+            if self.hp < 0:
+                self.hp = 0
             self.speed -= weapon_attack
             if self.speed < 0:
                 self.speed = 0
@@ -49,11 +51,12 @@ class NPC(pygame.sprite.Sprite):
                 self.speed = 0
 
     def draw_hp(self, screen):
-        hp_position = self.rect.center       
+        # hp_position = pygame.math.Vector2(self.rect.topleft)
+        hp_position = pygame.math.Vector2(self.rect.center)
+        hp_position.y -= int(self.rect.height * 3/4)      
         text_generator = pygame.font.SysFont('Comic Sans MS', size=20)
         text = text_generator.render(
             '{}'.format(self.hp), 1,(255,0,0)
         )
-        print(hp_position)
         screen.blit(text, dest = hp_position)
    
