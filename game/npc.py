@@ -16,6 +16,7 @@ class NPC(pygame.sprite.Sprite):
         self.hp = npc_hp
         self.speed = npc_speed
         self.player = player #ссылка на игрока
+        self.attack_timer = npc_attack_timer_melee
 
     def update(self, dt, bullets_group, walls_group):
         self.change_y += gravity
@@ -37,6 +38,8 @@ class NPC(pygame.sprite.Sprite):
             movement = direction * self.speed * dt
             self.rect.x += movement.x
             self.rect.y += movement.y
+        else:
+            self.attack(dt)
         
         bullet = pygame.sprite.spritecollideany(self, bullets_group)
         if bullet is not None:
@@ -59,4 +62,10 @@ class NPC(pygame.sprite.Sprite):
             '{}'.format(self.hp), 1,(255,0,0)
         )
         screen.blit(text, dest = hp_position)
-   
+
+    def attack(self, dt):
+        self.attack_timer -= dt
+        if self.attack_timer <= 0:
+            self.player.hp -= npc_weapon_attack_melee
+            self.attack_timer = npc_attack_timer_melee
+        

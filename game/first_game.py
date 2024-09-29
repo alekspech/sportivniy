@@ -53,7 +53,7 @@ walls_group.add(
     ]
 )
 game_frame_number = 0
-heals = []
+last_npc_spawn_time = 0
 while is_game_running: # основной цикл игры
     dt = clock.tick(60) / 1000
     game_frame_number += 1
@@ -73,6 +73,11 @@ while is_game_running: # основной цикл игры
         npc.draw_hp(screen)
         if npc.hp == 0:
             npc_group.remove(npc)
+    for player in player_group:
+        player.draw_hp(screen)
+
+        if player.hp == 0:
+            player_group.remove(player)
     walls_group.update()
     walls_group.draw(screen)
     bullets_group.update(dt)
@@ -80,15 +85,17 @@ while is_game_running: # основной цикл игры
     text = text_generator.render('{}'.format(player.rect.center), 1,(255,255,255))
     screen.blit(text, dest=(0,0))
     pygame.display.flip() #отрисовка обьектов
-    # game_time = round(pygame.time.get_ticks()/1000)
-    # if game_time % 2 == 0:
-        # new_npc = NPC(
-        #     img_path=npc1_img_path,
-        #     spawn_x=screen_width-100,
-        #     spawn_y=screen_height,
-        #     player=player
-        # )
-        # npc_group.add(new_npc)
-    # print(game_time)
+    game_time = pygame.time.get_ticks()
+    if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
+        new_npc = NPC(
+            img_path=npc1_img_path,
+            spawn_x=screen_width-100,
+            spawn_y=screen_height,
+            player=player
+        )
+
+        npc_group.add(new_npc)
+        last_npc_spawn_time = game_time
+    print(game_time)
     
 pygame.quit()

@@ -12,6 +12,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = player_x
         self.rect.y = player_y - self.rect.height
+        self.hp = player_hp
 
         self.jump_power = player_jump_power
         self.change_x = 0
@@ -70,4 +71,12 @@ class PlayerKapibara(pygame.sprite.Sprite):
             self.rect = self.rect.move(-dx, -dy)
 
     def draw_hp(self, screen):
-        hp_position = self.rect.top
+        hp_position = pygame.math.Vector2(self.rect.center)
+        hp_position.y -= int(self.rect.height * 3/4)      
+        text_generator = pygame.font.SysFont('Comic Sans MS', size=20)
+        text = text_generator.render(
+            '{}'.format(self.hp), 1,(0,225,0)
+        )
+        screen.blit(text, dest = hp_position)
+
+        # hp_position = self.rect.top
