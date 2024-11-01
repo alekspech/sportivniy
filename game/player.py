@@ -29,8 +29,17 @@ class PlayerKapibara(pygame.sprite.Sprite):
     def shoot(self, dt, bullets_group):
         self.bullet_timer -= dt
         if self.bullet_timer <= 0:
+            mouse_position = pygame.math.Vector2(
+                pygame.mouse.get_pos()
+            )
+            player_position = pygame.math.Vector2(self.rect.center)
+            shoot_direction = mouse_position - player_position
+            shoot_direction = shoot_direction.normalize()
             bullets_group.add(
-                Bullet(position=self.rect.center, direction=self.last_direction)
+                Bullet(
+                    position=self.rect.center,
+                    direction=shoot_direction
+                )
             )# выстрел
             self.bullet_timer = weapon_timer
 

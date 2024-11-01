@@ -1,7 +1,7 @@
 screen_height = 800
 screen_width = 1280
 gravity = 0.5
-bullet_speed = 500
+bullet_speed = 1000
 is_fullscreen = True
 player_speed = 300
 npc_speed = 250
@@ -11,6 +11,7 @@ bg_path = 'textures/bg1.png'
 player_img_path = 'textures/kapibara.jpeg'
 npc1_img_path = 'textures/NPC1.jpeg'
 npc2_img_path = 'textures/NPC2.png'
+
 npc_attack_range = 30
 npc_attack_timer_melee = 1
 npc_hp = 100

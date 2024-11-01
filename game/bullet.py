@@ -1,7 +1,7 @@
 import pygame
 from varname.helpers import debug
 import random
-from game.game_settings import screen_height, screen_width, gravity, bullet_speed
+from game.game_settings import *
 
 bullet_img = pygame.Surface((10,10))
 bullet_img.fill((255,0,0))
