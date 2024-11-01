@@ -96,6 +96,5 @@ while is_game_running: # основной цикл игры
 
         npc_group.add(new_npc)
         last_npc_spawn_time = game_time
-    print(game_time)
     
 pygame.quit()

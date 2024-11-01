@@ -8,10 +8,11 @@ npc_speed = 250
 weapon_timer = 0.2
 player_jump_power = -10
 bg_path = 'textures/bg1.png'
-player_img_path = 'textures/kapibara.jpeg'
+player_img_path = 'textures/kapibara.png'
 npc1_img_path = 'textures/NPC1.jpeg'
+bullet_img_path = 'textures/bullet1.jpg'
 npc2_img_path = 'textures/NPC2.png'
-
+bullet_img_path2 = 'textures/bullet2.jpg'
 npc_attack_range = 30
 npc_attack_timer_melee = 1
 npc_hp = 100

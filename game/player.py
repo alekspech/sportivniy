@@ -37,6 +37,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
             shoot_direction = shoot_direction.normalize()
             bullets_group.add(
                 Bullet(
+                    img_path=bullet_img_path,
                     position=self.rect.center,
                     direction=shoot_direction
                 )
@@ -74,7 +75,10 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE]:
             self.jump()
         if keys[pygame.K_RETURN]:
-            self.shoot(dt, bullets_group)  
+            self.shoot(dt, bullets_group) 
+        mouse_buttons = pygame.mouse.get_pressed()
+        if mouse_buttons[0]:
+            self.shoot(dt, bullets_group)
         self.rect = self.rect.move(dx, dy)
         if pygame.sprite.spritecollideany(self, walls_group):
             self.rect = self.rect.move(-dx, -dy)
