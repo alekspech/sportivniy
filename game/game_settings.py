@@ -20,3 +20,4 @@ npc_spawn_timer = 1.5
 weapon_attack = 30
 npc_weapon_attack_melee = 10
 player_hp = 100
+world_cell_size = 32

@@ -15,6 +15,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.rect.x = player_x
         self.rect.y = player_y - self.rect.height
         self.hp = player_hp
+        self.world_position = pygame.math.Vector2(player_x, player_y)
 
         self.jump_power = player_jump_power
         self.change_x = 0
@@ -51,13 +52,13 @@ class PlayerKapibara(pygame.sprite.Sprite):
         
 
     def update(self, dt, bullets_group, walls_group):
-        self.change_y += gravity
-        self.rect.x += self.change_x
-        self.rect.y += self.change_y
+        # self.change_y += gravity
+        self.world_position.x += self.change_x
+        self.world_position.y += self.change_y
 
-        if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
-            self.change_y = 0
-            self.rect.y = screen_height - self.rect.height
+        # if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
+        #     self.change_y = 0
+        #     self.rect.y = screen_height - self.rect.height
         
         if self.direction.length() > 0:
             self.direction = self.direction.normalize()

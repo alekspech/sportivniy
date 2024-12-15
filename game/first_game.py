@@ -42,7 +42,7 @@ npc_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 walls_group = pygame.sprite.Group()
 bullets_group = pygame.sprite.Group()
-npc_group.add([npc1, npc2])
+# npc_group.add([npc1, npc2])
 player_group.add([player])
 walls_group.add(
     [
@@ -64,9 +64,14 @@ while is_game_running: # основной цикл игры
     bg_h = screen.get_height()-bg.get_height()
     bg_w = screen.get_width()-bg.get_width()
     screen.blit(bg, (bg_w, bg_h))
-    
+    camera_offset = player.world_position - pygame.math.Vector2(
+        screen_width/2,
+        screen_height/2
+    )
+    player_position_screen = player.world_position - camera_offset
+
     player_group.update(dt, bullets_group, walls_group)
-    player_group.draw(screen)
+    screen.blit(player.image, player_position_screen)
     npc_group.update(dt, bullets_group, walls_group)
     npc_group.draw(screen)
     for npc in npc_group:
@@ -86,15 +91,15 @@ while is_game_running: # основной цикл игры
     screen.blit(text, dest=(0,0))
     pygame.display.flip() #отрисовка обьектов
     game_time = pygame.time.get_ticks()
-    if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
-        new_npc = NPC(
-            img_path=npc1_img_path,
-            spawn_x=screen_width-100,
-            spawn_y=screen_height,
-            player=player
-        )
+    # if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
+    #     new_npc = NPC(
+    #         img_path=npc1_img_path,
+    #         spawn_x=screen_width-100,
+    #         spawn_y=screen_height,
+    #         player=player
+    #     )
 
-        npc_group.add(new_npc)
-        last_npc_spawn_time = game_time
+    #     npc_group.add(new_npc)
+    #     last_npc_spawn_time = game_time
     
 pygame.quit()
