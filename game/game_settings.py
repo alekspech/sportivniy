@@ -1,12 +1,13 @@
 screen_height = 800
 screen_width = 1280
-gravity = 0.5
+# gravity = 0.5
+gravity = 2
 bullet_speed = 1000
 is_fullscreen = True
 player_speed = 300
 npc_speed = 250
 weapon_timer = 0.2
-player_jump_power = -10
+player_jump_power = -3
 bg_path = 'textures/background.JPG'
 player_img_path = 'textures/kapibara.png'
 npc1_img_path = 'textures/NPC1.png'

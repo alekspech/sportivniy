@@ -7,6 +7,9 @@ from game.wall import Wall
 from game.npc import NPC
 from game.game_settings import *
 
+def round_v2(v2):
+    return pygame.math.Vector2(round(v2.x), round(v2.y))
+
 pygame.init()
 if is_fullscreen:
     screen = pygame.display.set_mode(
@@ -23,7 +26,7 @@ bg = pygame.image.load(bg_path)
 bg = pygame.transform.scale(bg, (screen_width, screen_height))
 player = PlayerKapibara(
     img_path=player_img_path,
-    player_x=0,
+    player_x=100,
     player_y=screen_height
 )
 npc1 = NPC(
@@ -64,30 +67,33 @@ while is_game_running: # основной цикл игры
     bg_h = screen.get_height()-bg.get_height()
     bg_w = screen.get_width()-bg.get_width()
     screen.blit(bg, (bg_w, bg_h))
-    camera_offset = player.world_position - pygame.math.Vector2(
+    camera_offset = round_v2(player.world_position - pygame.math.Vector2(
         screen_width/2,
         screen_height/2
-    )
+    ))
     player_position_screen = player.world_position - camera_offset
 
-    player_group.update(dt, bullets_group, walls_group)
-    screen.blit(player.image, player_position_screen)
+    player.update(dt, bullets_group, walls_group, camera_offset)
+    player.draw(screen, camera_offset)
+    # screen.blit(player.image, player_position_screen)
     npc_group.update(dt, bullets_group, walls_group)
     npc_group.draw(screen)
     for npc in npc_group:
         npc.draw_hp(screen)
         if npc.hp == 0:
             npc_group.remove(npc)
-    for player in player_group:
-        player.draw_hp(screen)
+    # for player in player_group:
+    #     player.draw_hp(screen, camera_offset)
 
-        if player.hp == 0:
-            player_group.remove(player)
+    #     if player.hp == 0:
+    #         player_group.remove(player)
     walls_group.update()
-    walls_group.draw(screen)
+    for wall in walls_group:
+        wall.draw(screen, camera_offset)
     bullets_group.update(dt)
-    bullets_group.draw(screen)
-    text = text_generator.render('{}'.format(player.rect.center), 1,(255,255,255))
+    for bullet in bullets_group:
+        bullet.draw(screen, camera_offset)
+    text = text_generator.render('{}-{}'.format(player.world_position, player.velocity, player.on_ground), 1,(255,255,255))
     screen.blit(text, dest=(0,0))
     pygame.display.flip() #отрисовка обьектов
     game_time = pygame.time.get_ticks()

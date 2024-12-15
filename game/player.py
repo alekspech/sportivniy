@@ -18,93 +18,106 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.world_position = pygame.math.Vector2(player_x, player_y)
 
         self.jump_power = player_jump_power
-        self.change_x = 0
-        self.change_y = 0
         self.direction = pygame.math.Vector2(0,0)
+        self.velocity = pygame.math.Vector2(0, 0) 
         self.last_direction = pygame.math.Vector2(1,0)  #default right
         self.bullet_timer = weapon_timer
         self.is_facing_right = True
+        self.on_ground = False
+        print('player created')
 
+    def global_center(self):
+        return self.world_position + pygame.math.Vector2(self.rect.width // 2, self.rect.height // 2)
 
     def jump(self):
-        if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
-            self.change_y = self.jump_power
-        return self.change_y
+        if self.on_ground:
+            self.velocity.y = player_jump_power
+            self.on_ground = False
 
-    def shoot(self, dt, bullets_group):
+    def shoot(self, dt, bullets_group, camera_offset):
         self.bullet_timer -= dt
         if self.bullet_timer <= 0:
-            mouse_position = pygame.math.Vector2(
-                pygame.mouse.get_pos()
-            )
-            player_position = pygame.math.Vector2(self.rect.center)
-            shoot_direction = mouse_position - player_position
-            shoot_direction = shoot_direction.normalize()
+            player_center = self.world_position + pygame.math.Vector2(self.rect.width // 2, self.rect.height // 2)
+            mouse_position = camera_offset + pygame.math.Vector2(pygame.mouse.get_pos())
+            print(mouse_position, player_center, self.world_position)
+            shoot_direction = (mouse_position - player_center).normalize()
+            print(shoot_direction)
             bullets_group.add(
                 Bullet(
                     img_path=bullet_img_path,
-                    position=self.rect.center,
+                    position=player_center,
                     direction=shoot_direction
                 )
-            )# выстрел
+            )
             self.bullet_timer = weapon_timer
 
         
 
-    def update(self, dt, bullets_group, walls_group):
-        # self.change_y += gravity
-        self.world_position.x += self.change_x
-        self.world_position.y += self.change_y
-
-        # if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
-        #     self.change_y = 0
-        #     self.rect.y = screen_height - self.rect.height
-        
-        if self.direction.length() > 0:
-            self.direction = self.direction.normalize()
-            self.last_direction = self.direction
+    def update(self, dt, bullets_group, walls_group, camera_offset):
         keys = pygame.key.get_pressed()
-        dx = 0
-        dy = 0 #премешение игрока по иксу и по игрику
-        if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.direction.y = -1 
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            dy += player_speed * dt
-            self.direction.y = 1 
+        movement = pygame.math.Vector2(0, 0)
+
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            dx -= player_speed * dt
-            self.direction.x = -1 
+            movement.x -= 1
             self.flip_image(is_facing_left=True)
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            dx += player_speed * dt
-            self.direction.x = 1 
+            movement.x += 1
             self.flip_image(is_facing_left=False)
         if keys[pygame.K_SPACE]:
             self.jump()
         if keys[pygame.K_RETURN]:
-            self.shoot(dt, bullets_group)
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        if mouse_x < self.rect.centerx:
-            self.flip_image(is_facing_left=True)
-        elif mouse_x > self.rect.centerx:
-            self.flip_image(is_facing_left=False)
+            self.shoot(dt, bullets_group, camera_offset)
+
+        if movement.length() > 0:
+            movement = movement.normalize()
+
+       # Horizontal movement
+        self.world_position.x += movement.x * player_speed * dt
+        self.rect.topleft = self.world_position
+        collided_object = pygame.sprite.spritecollideany(self, walls_group)
+        if collided_object:
+            if movement.x > 0:  # Moving right
+                self.world_position.x = collided_object.rect.left - self.rect.width
+            elif movement.x < 0:  # Moving left
+                self.world_position.x = collided_object.rect.right
+            self.rect.topleft = self.world_position
+
+        # Gravity / Vertical movement
+        # if not self.on_ground:
+        self.velocity.y += gravity * dt
+        self.world_position.y += self.velocity.y
+        self.rect.topleft = self.world_position
+        collided_object = pygame.sprite.spritecollideany(self, walls_group)
+        if collided_object:
+            if self.velocity.y > 0:  # Falling down
+                self.on_ground = True
+                self.world_position.y = collided_object.rect.top - self.rect.height
+                self.velocity.y = 0
+            elif self.velocity.y < 0:  # Jumping up
+                self.world_position.y = collided_object.rect.bottom
+                self.velocity.y = 0
+        else:
+            self.on_ground = False  # If no collision, the player is in the air
+
+        self.rect.topleft = self.world_position  # Sync rect to world position
+
+        # print(movement)
+
         mouse_buttons = pygame.mouse.get_pressed()
         if mouse_buttons[0]:
-            self.shoot(dt, bullets_group)
-        self.rect = self.rect.move(dx, dy)
-        if pygame.sprite.spritecollideany(self, walls_group):
-            self.rect = self.rect.move(-dx, -dy)
+            self.shoot(dt, bullets_group, camera_offset)
 
-    def draw_hp(self, screen):
-        hp_position = pygame.math.Vector2(self.rect.center)
-        hp_position.y -= int(self.rect.height * 3/4)      
+    def draw(self, screen, camera_offset):
+        screen_position = self.world_position - camera_offset
+        screen.blit(self.image, (screen_position.x, screen_position.y))
+
+    def draw_hp(self, screen, camera_offset):
+        """Draw the player's HP above their head."""
+        hp_position = self.world_position - camera_offset
+        hp_position.y -= int(self.rect.height * 3 / 4)
         text_generator = pygame.font.SysFont('Comic Sans MS', size=20)
-        text = text_generator.render(
-            '{}'.format(self.hp), 1,(0,225,0)
-        )
-        screen.blit(text, dest = hp_position)
-
-        # hp_position = self.rect.top
+        text = text_generator.render(f'{self.hp}', 1, (0, 225, 0))
+        screen.blit(text, dest=hp_position)
 
     def flip_image(self, is_facing_left ):
         if is_facing_left and self.is_facing_right:
