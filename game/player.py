@@ -7,8 +7,10 @@ from game.bullet import Bullet
 class PlayerKapibara(pygame.sprite.Sprite):
     def __init__(self, img_path, player_x, player_y):
         super().__init__()
-        self.image = pygame.image.load(img_path).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (50, 100))
+        self.original_image = pygame.image.load(img_path).convert_alpha()
+        self.original_image = pygame.transform.scale(self.original_image, (50, 100))
+        self.image = self.original_image
+        self.flipped_image = pygame.transform.flip(self.original_image, flip_x=True, flip_y=False)
         self.rect = self.image.get_rect()
         self.rect.x = player_x
         self.rect.y = player_y - self.rect.height
@@ -20,6 +22,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0,0)
         self.last_direction = pygame.math.Vector2(1,0)  #default right
         self.bullet_timer = weapon_timer
+        self.is_facing_right = True
+
 
     def jump(self):
         if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
@@ -69,13 +73,20 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             dx -= player_speed * dt
             self.direction.x = -1 
+            self.flip_image(is_facing_left=True)
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             dx += player_speed * dt
             self.direction.x = 1 
+            self.flip_image(is_facing_left=False)
         if keys[pygame.K_SPACE]:
             self.jump()
         if keys[pygame.K_RETURN]:
-            self.shoot(dt, bullets_group) 
+            self.shoot(dt, bullets_group)
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        if mouse_x < self.rect.centerx:
+            self.flip_image(is_facing_left=True)
+        elif mouse_x > self.rect.centerx:
+            self.flip_image(is_facing_left=False)
         mouse_buttons = pygame.mouse.get_pressed()
         if mouse_buttons[0]:
             self.shoot(dt, bullets_group)
@@ -93,3 +104,11 @@ class PlayerKapibara(pygame.sprite.Sprite):
         screen.blit(text, dest = hp_position)
 
         # hp_position = self.rect.top
+
+    def flip_image(self, is_facing_left ):
+        if is_facing_left and self.is_facing_right:
+            self.image = self.flipped_image
+            self.is_facing_right = False
+        elif not is_facing_left and not self.is_facing_right:
+            self.image = self.original_image
+            self.is_facing_right = True     
