@@ -8,7 +8,18 @@ from game.npc import NPC
 from game.game_settings import *
 
 def round_v2(v2):
-    return pygame.math.Vector2(round(v2.x), round(v2.y))
+    return pygame.math.Vector2(int(v2.x), int(v2.y))
+
+def is_colliding(a, b):
+    if a.right < b.left:
+        return False
+
+    if a.left > b.right:
+        return False
+
+    # do it again for tops and bottoms
+
+    return True
 
 pygame.init()
 if is_fullscreen:
@@ -49,10 +60,10 @@ bullets_group = pygame.sprite.Group()
 player_group.add([player])
 walls_group.add(
     [
-        Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
+        # Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
         Wall(x=1,y=screen_height+1,width=10000,height=2,color='black' ),
-        Wall(x=-1,y=1,width=2,height=10000,color='black' ),
-        Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
+        # Wall(x=-1,y=1,width=2,height=10000,color='black' ),
+        # Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
     ]
 )
 game_frame_number = 0
@@ -93,7 +104,7 @@ while is_game_running: # основной цикл игры
     bullets_group.update(dt)
     for bullet in bullets_group:
         bullet.draw(screen, camera_offset)
-    text = text_generator.render('{}-{}'.format(player.world_position, player.velocity, player.on_ground), 1,(255,255,255))
+    text = text_generator.render('{}-{}-{}'.format(player.world_position, player.velocity, player.on_ground), 1,(0,0,255))
     screen.blit(text, dest=(0,0))
     pygame.display.flip() #отрисовка обьектов
     game_time = pygame.time.get_ticks()
