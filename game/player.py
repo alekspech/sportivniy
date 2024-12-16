@@ -83,9 +83,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
             self.rect.topleft = self.world_position
 
         # Gravity / Vertical movement
-        # if not self.on_ground:
-        self.velocity.y += gravity# * dt
-        # if self.velocity.y > 1:
+        self.velocity.y += gravity
         self.world_position.y += self.velocity.y
         self.rect.topleft = self.world_position
         collided_object = pygame.sprite.spritecollideany(self, walls_group)
@@ -97,8 +95,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
             elif self.velocity.y < 0:  # Jumping up
                 self.world_position.y = collided_object.rect.bottom
                 self.velocity.y = 0
-        # else:
-        #     self.on_ground = False  # If no collision, the player is in the air
+        else:
+            self.on_ground = False  # If no collision, the player is in the air
 
         self.rect.topleft = self.world_position  # Sync rect to world position
 
