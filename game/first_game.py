@@ -87,7 +87,9 @@ while is_game_running: # основной цикл игры
     walls_group.draw(screen)
     bullets_group.update(dt)
     bullets_group.draw(screen)
-    text = text_generator.render('{}'.format(player.rect.center), 1,(255,255,255))
+    text = text_generator.render(
+        '{}'.format(player.rect.center), 1,(0,0,0)
+        )
     screen.blit(text, dest=(0,0))
     pygame.display.flip() #отрисовка обьектов
     game_time = pygame.time.get_ticks()

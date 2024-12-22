@@ -18,10 +18,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.world_position = pygame.math.Vector2(player_x, player_y)
 
         self.jump_power = player_jump_power
-        self.change_x = 0
-        self.change_y = 0
-        self.direction = pygame.math.Vector2(0,0)
-        self.last_direction = pygame.math.Vector2(1,0)  #default right
+        self.speed = pygame.math.Vector2(0,0)
         self.bullet_timer = weapon_timer
         self.is_facing_right = True
 
@@ -52,48 +49,50 @@ class PlayerKapibara(pygame.sprite.Sprite):
         
 
     def update(self, dt, bullets_group, walls_group):
-        # self.change_y += gravity
-        self.world_position.x += self.change_x
-        self.world_position.y += self.change_y
-
-        # if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
-        #     self.change_y = 0
-        #     self.rect.y = screen_height - self.rect.height
-        
-        if self.direction.length() > 0:
-            self.direction = self.direction.normalize()
-            self.last_direction = self.direction
         keys = pygame.key.get_pressed()
-        dx = 0
-        dy = 0 #премешение игрока по иксу и по игрику
-        if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.direction.y = -1 
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            dy += player_speed * dt
-            self.direction.y = 1 
+        movement = pygame.math.Vector2(0,0)
+
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            dx -= player_speed * dt
-            self.direction.x = -1 
+            movement.x = -1
             self.flip_image(is_facing_left=True)
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            dx += player_speed * dt
-            self.direction.x = 1 
+            movement.x = 1
             self.flip_image(is_facing_left=False)
         if keys[pygame.K_SPACE]:
             self.jump()
-        if keys[pygame.K_RETURN]:
-            self.shoot(dt, bullets_group)
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        if mouse_x < self.rect.centerx:
-            self.flip_image(is_facing_left=True)
-        elif mouse_x > self.rect.centerx:
-            self.flip_image(is_facing_left=False)
-        mouse_buttons = pygame.mouse.get_pressed()
-        if mouse_buttons[0]:
-            self.shoot(dt, bullets_group)
-        self.rect = self.rect.move(dx, dy)
-        if pygame.sprite.spritecollideany(self, walls_group):
-            self.rect = self.rect.move(-dx, -dy)
+
+        if movement.length() > 0:
+            movement = movement.normalize()
+
+        self.world_position.x += movement.x * player_speed * dt
+        self.rect.topleft = self.world_position
+        collided_object = pygame.sprite.spritecollideany(self, walls_group)
+        if collided_object:
+            if movement.x > 0:
+                self.world_position.x = collided_object.rect.left - self.rect.width
+            elif movement.x < 0:
+                self.world_position.x = collided_object.rect.right
+            self.rect.topleft = self.world_position
+        
+        self.speed.y += gravity
+        self.world_position.y += self.speed.y
+        self.rect.topleft = self.world_position
+        collided_object = pygame.sprite.spritecollideany(self, walls_group)
+        if collided_object:
+            pass
+
+
+        # mouse_x, mouse_y = pygame.mouse.get_pos()
+        # if mouse_x < self.rect.centerx:
+        #     self.flip_image(is_facing_left=True)
+        # elif mouse_x > self.rect.centerx:
+        #     self.flip_image(is_facing_left=False)
+        # mouse_buttons = pygame.mouse.get_pressed()
+        # if mouse_buttons[0]:
+        #     self.shoot(dt, bullets_group)
+        # self.rect = self.rect.move(dx, dy)
+        # if pygame.sprite.spritecollideany(self, walls_group):
+        #     self.rect = self.rect.move(-dx, -dy)
 
     def draw_hp(self, screen):
         hp_position = pygame.math.Vector2(self.rect.center)
