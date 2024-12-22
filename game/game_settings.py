@@ -1,6 +1,7 @@
 screen_height = 800
 screen_width = 1280
 gravity = 0.5
+# gravity = 2
 bullet_speed = 1000
 is_fullscreen = True
 player_speed = 300
