@@ -21,6 +21,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.speed = pygame.math.Vector2(0,0)
         self.bullet_timer = weapon_timer
         self.is_facing_right = True
+        self.is_on_ground = False
 
 
     def jump(self):
@@ -28,12 +29,12 @@ class PlayerKapibara(pygame.sprite.Sprite):
             self.change_y = self.jump_power
         return self.change_y
 
-    def shoot(self, dt, bullets_group):
+    def shoot(self, dt, bullets_group, camera_offset):
         self.bullet_timer -= dt
         if self.bullet_timer <= 0:
             mouse_position = pygame.math.Vector2(
                 pygame.mouse.get_pos()
-            )
+            ) + camera_offset
             player_position = pygame.math.Vector2(self.rect.center)
             shoot_direction = mouse_position - player_position
             shoot_direction = shoot_direction.normalize()
@@ -48,7 +49,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
 
         
 
-    def update(self, dt, bullets_group, walls_group):
+    def update(self, dt, bullets_group, walls_group, camera_offset):
         keys = pygame.key.get_pressed()
         movement = pygame.math.Vector2(0,0)
 
@@ -63,10 +64,10 @@ class PlayerKapibara(pygame.sprite.Sprite):
 
         if movement.length() > 0:
             movement = movement.normalize()
-
         self.world_position.x += movement.x * player_speed * dt
         self.rect.topleft = self.world_position
         collided_object = pygame.sprite.spritecollideany(self, walls_group)
+        #пересечение со стеной, движение по горизонтали
         if collided_object:
             if movement.x > 0:
                 self.world_position.x = collided_object.rect.left - self.rect.width
@@ -74,25 +75,32 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 self.world_position.x = collided_object.rect.right
             self.rect.topleft = self.world_position
         
+        #пересечение со стеной, движение по вертикали
         self.speed.y += gravity
         self.world_position.y += self.speed.y
         self.rect.topleft = self.world_position
         collided_object = pygame.sprite.spritecollideany(self, walls_group)
-        if collided_object:
-            pass
+        if collided_object:  #есть пересечение   
+            if self.speed.y > 0: #игрок падает на объект 
+                self.is_on_ground = True
+                self.speed.y = 0
+                self.world_position.y = collided_object.rect.top - self.rect.height
+            elif self.speed.y < 0: #игрок прыгает
+                self.speed.y = 0
+        else:
+            self.is_on_ground = False
+        self.rect.topleft = self.world_position
 
 
-        # mouse_x, mouse_y = pygame.mouse.get_pos()
-        # if mouse_x < self.rect.centerx:
-        #     self.flip_image(is_facing_left=True)
-        # elif mouse_x > self.rect.centerx:
-        #     self.flip_image(is_facing_left=False)
-        # mouse_buttons = pygame.mouse.get_pressed()
-        # if mouse_buttons[0]:
-        #     self.shoot(dt, bullets_group)
-        # self.rect = self.rect.move(dx, dy)
-        # if pygame.sprite.spritecollideany(self, walls_group):
-        #     self.rect = self.rect.move(-dx, -dy)
+
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        if mouse_x < self.rect.centerx:
+            self.flip_image(is_facing_left=True)
+        elif mouse_x > self.rect.centerx:
+            self.flip_image(is_facing_left=False)
+        mouse_buttons = pygame.mouse.get_pressed()
+        if mouse_buttons[0]:
+            self.shoot(dt, bullets_group, camera_offset)
 
     def draw_hp(self, screen):
         hp_position = pygame.math.Vector2(self.rect.center)
@@ -111,4 +119,9 @@ class PlayerKapibara(pygame.sprite.Sprite):
             self.is_facing_right = False
         elif not is_facing_left and not self.is_facing_right:
             self.image = self.original_image
-            self.is_facing_right = True     
+            self.is_facing_right = True
+
+    def  draw(self, screen, camera_offset):
+        screen_position = self.world_position - camera_offset
+        screen.blit(self.image, screen_position)
+        

@@ -70,7 +70,7 @@ while is_game_running: # основной цикл игры
     )
     player_position_screen = player.world_position - camera_offset
 
-    player_group.update(dt, bullets_group, walls_group)
+    player_group.update(dt, bullets_group, walls_group, camera_offset)
     screen.blit(player.image, player_position_screen)
     npc_group.update(dt, bullets_group, walls_group)
     npc_group.draw(screen)
