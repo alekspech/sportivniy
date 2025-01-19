@@ -9,18 +9,22 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.image.load(img_path).convert_alpha()
         self.image = pygame.transform.scale(self.image, (7, 5))
         self.rect = self.image.get_rect()
-        self.position = pygame.math.Vector2(position)
+        self.world_position = pygame.math.Vector2(position)
         self.speed = direction * bullet_speed
         self.damage = 10
 
     def update(self, dt):
-        self.position += self.speed * dt
-        self.rect.center = self.position
-        if self.rect.bottom < 0:
-            self.kill()
-        if self.rect.top > screen_height:
-            self.kill()
-        if self.rect.left < 0:
-            self.kill()
-        if self.rect.right > screen_width:
-            self.kill()
+        self.world_position += self.speed * dt
+        self.rect.center = self.world_position
+        # if self.rect.bottom < 0:
+        #     self.kill()
+        # if self.rect.top > screen_height:
+        #     self.kill()
+        # if self.rect.left < 0:
+        #     self.kill()
+        # if self.rect.right > screen_width:
+        #     self.kill()
+        
+    def draw(self, screen, camera_offset):
+        screen_position = self.world_position - camera_offset
+        screen.blit(self.image, screen_position)

@@ -35,7 +35,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
             mouse_position = pygame.math.Vector2(
                 pygame.mouse.get_pos()
             ) + camera_offset
-            player_position = pygame.math.Vector2(self.rect.center)
+            player_position = self.world_position + pygame.math.Vector2(self.rect.width//2, self.rect.height//2)
             shoot_direction = mouse_position - player_position
             shoot_direction = shoot_direction.normalize()
             bullets_group.add(
@@ -102,8 +102,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if mouse_buttons[0]:
             self.shoot(dt, bullets_group, camera_offset)
 
-    def draw_hp(self, screen):
-        hp_position = pygame.math.Vector2(self.rect.center)
+    def draw_hp(self, screen, camera_offset):
+        hp_position = self.world_position - camera_offset
         hp_position.y -= int(self.rect.height * 3/4)      
         text_generator = pygame.font.SysFont('Comic Sans MS', size=20)
         text = text_generator.render(

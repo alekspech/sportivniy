@@ -49,7 +49,7 @@ walls_group.add(
         Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
         Wall(x=1,y=screen_height+1,width=10000,height=2,color='black' ),
         Wall(x=-1,y=1,width=2,height=10000,color='black' ),
-        Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
+        # Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
     ]
 )
 game_frame_number = 0
@@ -79,14 +79,19 @@ while is_game_running: # основной цикл игры
         if npc.hp == 0:
             npc_group.remove(npc)
     for player in player_group:
-        player.draw_hp(screen)
+        player.draw_hp(screen, camera_offset)
+        player.draw(screen, camera_offset)
 
         if player.hp == 0:
             player_group.remove(player)
     walls_group.update()
-    walls_group.draw(screen)
+    # walls_group.draw(screen)
+    for wall in walls_group:
+        wall.draw(screen, camera_offset)
     bullets_group.update(dt)
-    bullets_group.draw(screen)
+    # bullets_group.draw(screen)
+    for bullet in bullets_group:
+        bullet.draw(screen, camera_offset)
     text = text_generator.render(
         '{}'.format(player.rect.center), 1,(0,0,0)
         )
