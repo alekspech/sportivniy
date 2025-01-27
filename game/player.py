@@ -25,9 +25,10 @@ class PlayerKapibara(pygame.sprite.Sprite):
 
 
     def jump(self):
-        if self.rect.y >= screen_height - self.rect.height: # проверка что игрок на полу
-            self.change_y = self.jump_power
-        return self.change_y
+        if self.is_on_ground:
+            self.speed.y = self.jump_power
+            self.is_on_ground = False
+
 
     def shoot(self, dt, bullets_group, camera_offset):
         self.bullet_timer -= dt
@@ -90,16 +91,18 @@ class PlayerKapibara(pygame.sprite.Sprite):
         else:
             self.is_on_ground = False
         self.rect.topleft = self.world_position
+        screen_position = self.world_position - camera_offset
+        player_center_x = screen_position.x + self.rect.width//2
 
 
 
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        if mouse_x < self.rect.centerx:
-            self.flip_image(is_facing_left=True)
-        elif mouse_x > self.rect.centerx:
-            self.flip_image(is_facing_left=False)
         mouse_buttons = pygame.mouse.get_pressed()
         if mouse_buttons[0]:
+            if mouse_x < player_center_x:
+                self.flip_image(is_facing_left=True)
+            elif mouse_x > player_center_x:
+                self.flip_image(is_facing_left=False)
             self.shoot(dt, bullets_group, camera_offset)
 
     def draw_hp(self, screen, camera_offset):
