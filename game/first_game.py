@@ -7,6 +7,9 @@ from game.wall import Wall
 from game.npc import NPC
 from game.game_settings import *
 
+log_path = 'log/log.txt'
+log_file = open(log_path, 'w')
+print(log_path)
 pygame.init()
 if is_fullscreen:
     screen = pygame.display.set_mode(
@@ -111,6 +114,9 @@ while is_game_running: # основной цикл игры
         (255,0,0)
     )
     screen.blit(text, dest=(0,60))
+    log_file.write(game_time_str + ', ')
+    log_file.write(player_position_str + ', ')
+    log_file.write(player_speed_str + '\n')
     pygame.display.flip() #отрисовка обьектов
     # if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
     #     new_npc = NPC(
@@ -124,3 +130,4 @@ while is_game_running: # основной цикл игры
     #     last_npc_spawn_time = game_time
     
 pygame.quit()
+log_file.close()
