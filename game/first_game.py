@@ -91,12 +91,27 @@ while is_game_running: # основной цикл игры
     # bullets_group.draw(screen)
     for bullet in bullets_group:
         bullet.draw(screen, camera_offset)
+    player_position_str = 'player: {}'.format(player.world_position)
     text = text_generator.render(
-        '{}'.format(player.rect.center), 1,(0,0,0)
+        player_position_str, 1,(0,0,0)
         )
     screen.blit(text, dest=(0,0))
-    pygame.display.flip() #отрисовка обьектов
     game_time = pygame.time.get_ticks()
+    game_time_str = 'game time: {}'.format(game_time)
+    text = text_generator.render(
+        game_time_str,
+        1,
+        (0,255,0)
+    )
+    screen.blit(text, dest=(0,30))
+    player_speed_str = 'player speed: {}'.format(player.speed)
+    text = text_generator.render(
+        player_speed_str,
+        1,
+        (255,0,0)
+    )
+    screen.blit(text, dest=(0,60))
+    pygame.display.flip() #отрисовка обьектов
     # if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
     #     new_npc = NPC(
     #         img_path=npc1_img_path,
