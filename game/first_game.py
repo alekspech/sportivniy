@@ -74,10 +74,10 @@ while is_game_running: # основной цикл игры
     player_position_screen = player.world_position - camera_offset
 
     player_group.update(dt, bullets_group, walls_group, camera_offset)
-    npc_group.update(dt, bullets_group, walls_group)
-    npc_group.draw(screen)
+    npc_group.update(dt, bullets_group, walls_group, camera_offset)
     for npc in npc_group:
-        npc.draw_hp(screen)
+        npc.draw(screen, camera_offset)
+        npc.draw_hp(screen, camera_offset)
         if npc.hp == 0:
             npc_group.remove(npc)
     for player in player_group:
@@ -118,16 +118,16 @@ while is_game_running: # основной цикл игры
     log_file.write(player_position_str + ', ')
     log_file.write(player_speed_str + '\n')
     pygame.display.flip() #отрисовка обьектов
-    # if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
-    #     new_npc = NPC(
-    #         img_path=npc1_img_path,
-    #         spawn_x=screen_width-100,
-    #         spawn_y=screen_height,
-    #         player=player
-    #     )
+    if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
+        new_npc = NPC(
+            img_path=npc1_img_path,
+            spawn_x=player.rect.x + random.randint(-1000, 1000),
+            spawn_y=player.rect.y,
+            player=player
+        )
 
-    #     npc_group.add(new_npc)
-    #     last_npc_spawn_time = game_time
+        npc_group.add(new_npc)
+        last_npc_spawn_time = game_time
     
 pygame.quit()
 log_file.close()
