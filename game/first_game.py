@@ -55,7 +55,7 @@ walls_group.add(
         # Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
     ]
 )
-game_frame_number = 0
+game_frame_number = 0 
 last_npc_spawn_time = 0
 while is_game_running: # основной цикл игры
     dt = clock.tick(60) / 1000
@@ -78,14 +78,14 @@ while is_game_running: # основной цикл игры
     for npc in npc_group:
         npc.draw(screen, camera_offset)
         npc.draw_hp(screen, camera_offset)
-        if npc.hp == 0:
+        if npc.hp <= 0:
             npc_group.remove(npc)
     for player in player_group:
         player.draw_hp(screen, camera_offset)
         player.draw(screen, camera_offset)
 
-        if player.hp == 0:
-            player_group.remove(player)
+        if player.hp <= 0:
+            exit()
     walls_group.update()
     # walls_group.draw(screen)
     for wall in walls_group:

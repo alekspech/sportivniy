@@ -53,12 +53,16 @@ class NPC(pygame.sprite.Sprite):
             movement = direction * self.npc_speed * dt
             self.rect.x += movement.x
             self.rect.y += movement.y
+        if movement.length() > 0:
+            movement = movement.normalize()
+        if movement.x < 0:
+            self.flip_image(is_facing_left = True)
+        if movement.x > 0:
+            self.flip_image(is_facing_left = False)    
         else:
             self.attack(dt)
         self.collide_bullet(bullets_group)
 
-        if movement.length() > 0:
-            movement = movement.normalize()
         self.world_position.x += movement.x * player_speed * dt
         self.rect.topleft = self.world_position
         collided_object = pygame.sprite.spritecollideany(self, walls_group)

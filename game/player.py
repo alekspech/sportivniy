@@ -54,10 +54,10 @@ class PlayerKapibara(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         movement = pygame.math.Vector2(0,0)
 
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+        if keys[pygame.K_a]:
             movement.x = -1
             self.flip_image(is_facing_left=True)
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+        if keys[pygame.K_d]:
             movement.x = 1
             self.flip_image(is_facing_left=False)
         if keys[pygame.K_SPACE]:
