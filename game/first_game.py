@@ -1,4 +1,5 @@
 import pygame
+import os
 from varname.helpers import debug
 import random
 from game.player import PlayerKapibara
@@ -8,6 +9,7 @@ from game.npc import NPC
 from game.game_settings import *
 
 log_path = 'log/log.txt'
+os.makedirs('log', exist_ok=True)
 log_file = open(log_path, 'w')
 print(log_path)
 pygame.init()
