@@ -3,6 +3,7 @@ from varname.helpers import debug
 import random
 from game.game_settings import *
 from game.bullet import Bullet
+from game.game_tools import round_vector
 
 class PlayerKapibara(pygame.sprite.Sprite):
     def __init__(self, img_path, player_x, player_y):
@@ -66,6 +67,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if movement.length() > 0:
             movement = movement.normalize()
         self.world_position.x += movement.x * player_speed * dt
+        self.world_position = round_vector(self.world_position)
         self.rect.topleft = self.world_position
         collided_object = pygame.sprite.spritecollideany(self, walls_group)
         #пересечение со стеной, движение по горизонтали
@@ -79,6 +81,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         #пересечение со стеной, движение по вертикали
         self.speed.y += gravity
         self.world_position.y += self.speed.y
+        self.world_position = round_vector(self.world_position)
         self.rect.topleft = self.world_position
         collided_object = pygame.sprite.spritecollideany(self, walls_group)
         if collided_object:  #есть пересечение   
@@ -90,6 +93,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 self.speed.y = 0
         else:
             self.is_on_ground = False
+        self.world_position = round_vector(self.world_position)
         self.rect.topleft = self.world_position
         screen_position = self.world_position - camera_offset
         player_center_x = screen_position.x + self.rect.width//2
