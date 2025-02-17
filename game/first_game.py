@@ -129,6 +129,7 @@ while is_game_running: # основной цикл игры
         )
 
         npc_group.add(new_npc)
+        npc_spawn_x = player.rect.x + random.randint(300, 1000)
         last_npc_spawn_time = game_time
     
 pygame.quit()
