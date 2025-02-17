@@ -29,7 +29,7 @@ bg = pygame.transform.scale(bg, (screen_width, screen_height))
 player = PlayerKapibara(
     img_path=player_img_path,
     player_x=0,
-    player_y=screen_height
+    player_y=0
 )
 npc1 = NPC(
     img_path=npc1_img_path,
@@ -47,14 +47,14 @@ npc_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 walls_group = pygame.sprite.Group()
 bullets_group = pygame.sprite.Group()
-# npc_group.add([npc1, npc2])
+
 player_group.add([player])
 walls_group.add(
     [
-        Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
-        Wall(x=1,y=screen_height+1,width=10000,height=2,color='black' ),
-        Wall(x=-1,y=1,width=2,height=10000,color='black' ),
-        # Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
+        Wall(x=0, y=0, width=10000, height=10, color='black' ),
+        Wall(x=-200, y=0, width=100, height=10, color='yellow' ),
+        Wall(x=-400, y=0 ,width=100, height=10, color='green' ),
+        Wall(x=-400, y=-100, width=10, height=100, color='green' ),
     ]
 )
 game_frame_number = 0 
