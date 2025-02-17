@@ -71,8 +71,12 @@ while is_game_running: # основной цикл игры
     screen.blit(bg, (bg_w, bg_h))
     camera_offset = player.world_position - pygame.math.Vector2(
         screen_width/2,
-        screen_height/2
+        screen_height*3/4
     )
+
+
+    
+    
     player_position_screen = player.world_position - camera_offset
 
     player_group.update(dt, bullets_group, walls_group, camera_offset)
@@ -123,7 +127,7 @@ while is_game_running: # основной цикл игры
     if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
         new_npc = NPC(
             img_path=npc1_img_path,
-            spawn_x=player.rect.x + random.randint(-1000, 1000),
+            spawn_x=player.rect.x + random.randint(300, 1000),
             spawn_y=player.rect.y,
             player=player
         )
