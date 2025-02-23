@@ -4,6 +4,7 @@ import random
 from game.game_settings import *
 from game.bullet import Bullet
 from game.game_tools import round_vector
+from game.weapon import RangedWeapon, MeleeWeapon
 
 class PlayerKapibara(pygame.sprite.Sprite):
     def __init__(self, img_path, player_x, player_y):
@@ -23,7 +24,10 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.bullet_timer = weapon_timer
         self.is_facing_right = True
         self.is_on_ground = False
-
+        self.arsenal = {
+            1: MeleeWeapon('knife', attack_range=50, damage=50, fire_rate=0.1, img_path=knife_img_path),
+            # 2: RangedWeapon('gun', bullets_count=)
+        }
 
     def jump(self):
         if self.is_on_ground:

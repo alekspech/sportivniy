@@ -31,18 +31,6 @@ player = PlayerKapibara(
     player_x=0,
     player_y=0
 )
-npc1 = NPC(
-    img_path=npc1_img_path,
-    spawn_x=screen_width-100,
-    spawn_y=screen_height,
-    player=player
-)
-npc2 = NPC(
-    img_path=npc2_img_path,
-    spawn_x=screen_width-50,
-    spawn_y=screen_height,
-    player=player
-)
 npc_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 walls_group = pygame.sprite.Group()
