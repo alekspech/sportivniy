@@ -4,7 +4,7 @@ import random
 from game.game_settings import *
 from game.bullet import Bullet
 from game.game_tools import round_vector
-from game.weapon import RangedWeapon, MeleeWeapon
+from game.weapon import RangedWeapon, MeleeWeapon, ThrowingWeapon
 
 class PlayerKapibara(pygame.sprite.Sprite):
     def __init__(self, img_path, player_x, player_y):
@@ -18,45 +18,46 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.rect.y = player_y - self.rect.height
         self.hp = player_hp
         self.world_position = pygame.math.Vector2(player_x, player_y)
+        
 
         self.jump_power = player_jump_power
         self.speed = pygame.math.Vector2(0,0)
-        self.bullet_timer = weapon_timer
         self.is_facing_right = True
         self.is_on_ground = False
         self.arsenal = {
-            1: MeleeWeapon('knife', attack_range=50, damage=50, fire_rate=0.1, img_path=knife_img_path),
-            # 2: RangedWeapon('gun', bullets_count=)
+            1: MeleeWeapon(
+                'knife',
+                attack_range=knife_attack_range, 
+                damage=knife_damage, 
+                fire_rate=knife_fire_rate, 
+                img_path=knife_img_path
+            ),
+            3: RangedWeapon(
+                'machine gun', 
+                bullets_count=machine_gun_bullets_count, 
+                damage=machine_gun_damage, 
+                fire_rate=machine_gun_fire_rate, 
+                img_path=machine_gun_img_path
+            ),
+            # 4: ThrowingWeapon(
+                # 'exploating grenade',
+                # bullets_count=
+            # )
         }
+        self.current_weapon = 1
 
     def jump(self):
         if self.is_on_ground:
             self.speed.y = self.jump_power
             self.is_on_ground = False
 
-
-    def shoot(self, dt, bullets_group, camera_offset):
-        self.bullet_timer -= dt
-        if self.bullet_timer <= 0:
-            mouse_position = pygame.math.Vector2(
-                pygame.mouse.get_pos()
-            ) + camera_offset
-            player_position = self.world_position + pygame.math.Vector2(self.rect.width//2, self.rect.height//2)
-            shoot_direction = mouse_position - player_position
-            shoot_direction = shoot_direction.normalize()
-            bullets_group.add(
-                Bullet(
-                    img_path=bullet_img_path,
-                    position=self.rect.center,
-                    direction=shoot_direction
-                )
-            )# выстрел
-            self.bullet_timer = weapon_timer
-
-        
-
     def update(self, dt, bullets_group, walls_group, camera_offset):
         keys = pygame.key.get_pressed()
+        for i in range(0,9):
+            if keys[getattr(pygame, f'K_{i}')]:
+                self.current_weapon = i
+
+        weapon = self.arsenal[self.current_weapon]
         movement = pygame.math.Vector2(0,0)
 
         if keys[pygame.K_a]:
@@ -111,7 +112,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 self.flip_image(is_facing_left=True)
             elif mouse_x > player_center_x:
                 self.flip_image(is_facing_left=False)
-            self.shoot(dt, bullets_group, camera_offset)
+            weapon.shoot(dt, bullets_group, camera_offset, self)
 
     def draw_hp(self, screen, camera_offset):
         hp_position = self.world_position - camera_offset
@@ -132,7 +133,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
             self.image = self.original_image
             self.is_facing_right = True
 
-    def  draw(self, screen, camera_offset):
+    def draw(self, screen, camera_offset):
         screen_position = self.world_position - camera_offset
         screen.blit(self.image, screen_position)
+        self.arsenal[self.current_weapon].draw(screen, camera_offset, self)
         
