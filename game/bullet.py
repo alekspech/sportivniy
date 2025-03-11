@@ -7,7 +7,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, img_path, position, direction):
         super().__init__()
         self.image = pygame.image.load(img_path).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (7, 5))
+        self.image = pygame.transform.scale(self.image, (20, 15))
         self.rect = self.image.get_rect()
         self.world_position = pygame.math.Vector2(position)
         self.speed = direction * bullet_speed

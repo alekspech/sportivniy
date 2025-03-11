@@ -25,9 +25,26 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.is_facing_right = True
         self.is_on_ground = False
         self.arsenal = {
-            1: MeleeWeapon('knife', attack_range=50, damage=50, fire_rate=0.1, img_path=knife_img_path),
-            # 2: RangedWeapon('gun', bullets_count=)
-        }
+             1: MeleeWeapon(
+                 'knife',
+                 attack_range=knife_attack_range, 
+                 damage=knife_damage, 
+                 fire_rate=knife_fire_rate, 
+                 img_path=knife_img_path
+             ),
+             3: RangedWeapon(
+                 'machine gun', 
+                 bullets_count=machine_gun_bullets_count, 
+                 damage=machine_gun_damage, 
+                 fire_rate=machine_gun_fire_rate, 
+                 img_path=machine_gun_img_path
+             ),
+             # 4: ThrowingWeapon(
+                 # 'exploating grenade',
+                 # bullets_count=
+             # )
+         }
+        self.current_weapon = 1
 
     def jump(self):
         if self.is_on_ground:
@@ -55,8 +72,15 @@ class PlayerKapibara(pygame.sprite.Sprite):
 
         
 
-    def update(self, dt, bullets_group, walls_group, camera_offset):
+    def update(self, dt, bullets_group, walls_group, camera_offset, npc_group):
         keys = pygame.key.get_pressed()
+
+        for i in range(1, 4):
+            if keys[getattr(pygame, f'K_{i}')]:
+                self.current_weapon = i  
+
+        weapon = self.arsenal[self.current_weapon]
+
         movement = pygame.math.Vector2(0,0)
 
         if keys[pygame.K_a]:
@@ -102,8 +126,6 @@ class PlayerKapibara(pygame.sprite.Sprite):
         screen_position = self.world_position - camera_offset
         player_center_x = screen_position.x + self.rect.width//2
 
-
-
         mouse_x, mouse_y = pygame.mouse.get_pos()
         mouse_buttons = pygame.mouse.get_pressed()
         if mouse_buttons[0]:
@@ -111,7 +133,11 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 self.flip_image(is_facing_left=True)
             elif mouse_x > player_center_x:
                 self.flip_image(is_facing_left=False)
-            self.shoot(dt, bullets_group, camera_offset)
+            # self.shoot(dt, bullets_group, camera_offset)
+            if isinstance(weapon, MeleeWeapon):
+                weapon.attack(dt, self, npc_group)  # Melee attack
+            elif isinstance(weapon, RangedWeapon):
+                weapon.shoot(dt, self, bullets_group, camera_offset)  # Ranged attack
 
     def draw_hp(self, screen, camera_offset):
         hp_position = self.world_position - camera_offset
@@ -135,4 +161,5 @@ class PlayerKapibara(pygame.sprite.Sprite):
     def  draw(self, screen, camera_offset):
         screen_position = self.world_position - camera_offset
         screen.blit(self.image, screen_position)
+        self.arsenal[self.current_weapon].draw(screen, self, camera_offset)
         
