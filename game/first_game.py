@@ -67,7 +67,7 @@ while is_game_running: # основной цикл игры
     
     player_position_screen = player.world_position - camera_offset
 
-    player_group.update(dt, bullets_group, walls_group, camera_offset)
+    player_group.update(dt, bullets_group, walls_group, camera_offset, npc_group)
     npc_group.update(dt, bullets_group, walls_group, camera_offset)
     for npc in npc_group:
         npc.draw(screen, camera_offset)

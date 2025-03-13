@@ -51,11 +51,12 @@ class PlayerKapibara(pygame.sprite.Sprite):
             self.speed.y = self.jump_power
             self.is_on_ground = False
 
-    def update(self, dt, bullets_group, walls_group, camera_offset):
+    def update(self, dt, bullets_group, walls_group, camera_offset, npc_group):
         keys = pygame.key.get_pressed()
         for i in range(0,9):
             if keys[getattr(pygame, f'K_{i}')]:
-                self.current_weapon = i
+                if i in self.arsenal:
+                    self.current_weapon = i
 
         weapon = self.arsenal[self.current_weapon]
         movement = pygame.math.Vector2(0,0)
@@ -112,7 +113,10 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 self.flip_image(is_facing_left=True)
             elif mouse_x > player_center_x:
                 self.flip_image(is_facing_left=False)
-            weapon.shoot(dt, bullets_group, camera_offset, self)
+            if isinstance(weapon, RangedWeapon):
+                weapon.shoot(dt, bullets_group, camera_offset, self)
+            elif isinstance(weapon, MeleeWeapon):
+                weapon.attack(dt, self, npc_group)
 
     def draw_hp(self, screen, camera_offset):
         hp_position = self.world_position - camera_offset

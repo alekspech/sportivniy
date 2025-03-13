@@ -50,8 +50,13 @@ class MeleeWeapon(Weapon):
         super().__init__(weapon_name, damage, fire_rate, img_path)
         self.attack_range = attack_range
 
-    def shoot(self,dt, bullets_group, camera_offset, player):
-        return
+    def attack(self, dt, player, npc_group):
+        self.bullet_timer -= dt
+        if self.bullet_timer <= 0:
+            for npc in npc_group:
+                distance = player.world_position.distance_to(npc.world_position)
+                if distance <= self.attack_range:
+                    npc.hp -= self.damage
     
 class ThrowingWeapon(Weapon): 
     def __init__(self, weapon_name, bullets_count, damage, fire_rate, img_path, attack_range, flash_time):
