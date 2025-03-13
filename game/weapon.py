@@ -54,8 +54,8 @@ class MeleeWeapon(Weapon):
         return
     
 class ThrowingWeapon(Weapon): 
-    def __init__(self, weapon_name, bullets_count, damage, fire_rate, img_path):
+    def __init__(self, weapon_name, bullets_count, damage, fire_rate, img_path, attack_range, flash_time):
         super().__init__(weapon_name, damage, fire_rate, img_path)
         self.bullets_count = bullets_count
-
-        
+        self.attack_range = attack_range
+        self.flash_time = flash_time

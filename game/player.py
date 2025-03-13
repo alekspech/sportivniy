@@ -40,8 +40,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 img_path=machine_gun_img_path
             ),
             # 4: ThrowingWeapon(
-                # 'exploating grenade',
-                # bullets_count=
+            #     'exploating grenade',
+            #     bullets_count=
             # )
         }
         self.current_weapon = 1
