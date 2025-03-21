@@ -18,8 +18,12 @@ class Weapon(pygame.sprite.Sprite):
         self.bullet_timer = self.fire_rate
     
     def draw(self, screen, camera_offset, player):
-        screen_position = player.world_position - camera_offset + pygame.math.Vector2(player.rect.width // 2, player.rect.height // 2)
-        screen.blit(self.image, screen_position)
+        if player.is_facing_right == True:
+            screen_position = player.world_position - camera_offset + pygame.math.Vector2(player.rect.width // 2, player.rect.height // 2)
+            screen.blit(self.image, screen_position)
+        elif player.is_facing_right == False:
+            screen_position = player.world_position - camera_offset + pygame.math.Vector2(-player.rect.width // 2, player.rect.height // 2)
+            screen.blit(self.flipped_image, screen_position)
 
 class RangedWeapon(Weapon):
     def __init__(self, weapon_name, bullets_count, damage, fire_rate, img_path):
@@ -35,10 +39,20 @@ class RangedWeapon(Weapon):
             player_position = player.world_position + pygame.math.Vector2(player.rect.width//2, player.rect.height//2)
             shoot_direction = mouse_position - player_position
             shoot_direction = shoot_direction.normalize()
+            bullet_position = player_position + pygame.math.Vector2(
+                self.image.get_width()*3//4,
+                self.image.get_height()//2
+            )
+            if player.is_facing_right == False:
+                bullet_position = player_position + pygame.math.Vector2(
+                    -self.image.get_width()*3//4,
+                    self.image.get_height()//2
+                )
+
             bullets_group.add(
                 Bullet(
                     img_path=bullet_img_path,
-                    position=player.rect.center,
+                    position=bullet_position,
                     direction=shoot_direction
                 )
             )# выстрел
@@ -54,9 +68,13 @@ class MeleeWeapon(Weapon):
         self.bullet_timer -= dt
         if self.bullet_timer <= 0:
             for npc in npc_group:
+                direction = npc.world_position.x - player.world_position.x
                 distance = player.world_position.distance_to(npc.world_position)
                 if distance <= self.attack_range:
-                    npc.hp -= self.damage
+                    if direction < 0 and player.is_facing_right == False:
+                        npc.hp -= self.damage
+                    if direction > 0 and player.is_facing_right:
+                        npc.hp -= self.damage
     
 class ThrowingWeapon(Weapon): 
     def __init__(self, weapon_name, bullets_count, damage, fire_rate, img_path, attack_range, flash_time):
