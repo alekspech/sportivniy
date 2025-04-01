@@ -23,18 +23,18 @@ class NPC(pygame.sprite.Sprite):
         self.attack_timer = npc_attack_timer_melee
         self.jump_power = player_jump_power
         self.speed = pygame.math.Vector2(0,0)
-        self.bullet_timer = weapon_timer
         self.is_facing_right = True
         self.is_on_ground = False
 
     def collide_bullet(self, bullets_group):
         bullet = pygame.sprite.spritecollideany(self, bullets_group)
         if bullet is not None:
+            bullet_damage = bullet.damage
             bullets_group.remove(bullet)
-            self.hp -= weapon_attack
+            self.hp -= bullet_damage
             if self.hp < 0:
                 self.hp = 0
-            self.npc_speed -= weapon_attack
+            self.npc_speed -= bullet_damage
             if self.npc_speed < 0:
                 self.npc_speed = 0
             if self.hp <= 0:

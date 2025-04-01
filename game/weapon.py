@@ -53,10 +53,11 @@ class RangedWeapon(Weapon):
                 Bullet(
                     img_path=bullet_img_path,
                     position=bullet_position,
-                    direction=shoot_direction
+                    direction=shoot_direction,
+                    damage=self.damage
                 )
             )# выстрел
-            self.bullet_timer = weapon_timer
+            self.bullet_timer = self.fire_rate
         
 
 class MeleeWeapon(Weapon):

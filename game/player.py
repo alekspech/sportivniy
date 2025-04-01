@@ -32,6 +32,13 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 fire_rate=knife_fire_rate, 
                 img_path=knife_img_path
             ),
+            2: RangedWeapon(
+                'gun', 
+                bullets_count=gun_bullets_count, 
+                damage=gun_damage, 
+                fire_rate=gun_fire_rate, 
+                img_path=gun_img_path
+            ),
             3: RangedWeapon(
                 'machine gun', 
                 bullets_count=machine_gun_bullets_count, 
@@ -39,10 +46,15 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 fire_rate=machine_gun_fire_rate, 
                 img_path=machine_gun_img_path
             ),
-            # 4: ThrowingWeapon(
-            #     'exploating grenade',
-            #     bullets_count=
-            # )
+            4: ThrowingWeapon(
+                'flash grenade',
+                bullets_count = grenade_bullets_count,
+                flash_time=flash_time,
+                attack_range=flash_attack_range,
+                img_path=flash_img_path,
+                damage=flash_damage,
+                fire_rate=grenade_fire_rate
+            )
         }
         self.current_weapon = 1
 
