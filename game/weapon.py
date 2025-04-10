@@ -48,10 +48,13 @@ class RangedWeapon(Weapon):
                     -self.image.get_width()*3//4,
                     self.image.get_height()//2
                 )
-
+            if self.weapon_name == 'gun':
+                bullet_img = gun_bullet_img_path
+            elif self.weapon_name == 'machine gun':
+                bullet_img = machine_gun_bullet_img_path   
             bullets_group.add(
                 Bullet(
-                    img_path=bullet_img_path,
+                    img_path=bullet_img,
                     position=bullet_position,
                     direction=shoot_direction,
                     damage=self.damage

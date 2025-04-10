@@ -25,7 +25,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.is_facing_right = True
         self.is_on_ground = False
         self.arsenal = {
-            1: MeleeWeapon(
+            3: MeleeWeapon(
                 'knife',
                 attack_range=knife_attack_range, 
                 damage=knife_damage, 
@@ -39,7 +39,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 fire_rate=gun_fire_rate, 
                 img_path=gun_img_path
             ),
-            3: RangedWeapon(
+            1: RangedWeapon(
                 'machine gun', 
                 bullets_count=machine_gun_bullets_count, 
                 damage=machine_gun_damage, 
