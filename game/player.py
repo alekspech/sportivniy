@@ -37,14 +37,16 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 bullets_count=gun_bullets_count, 
                 damage=gun_damage, 
                 fire_rate=gun_fire_rate, 
-                img_path=gun_img_path
+                img_path=gun_img_path,
+                reload_time=1
             ),
             1: RangedWeapon(
                 'machine gun', 
                 bullets_count=machine_gun_bullets_count, 
                 damage=machine_gun_damage, 
                 fire_rate=machine_gun_fire_rate, 
-                img_path=machine_gun_img_path
+                img_path=machine_gun_img_path,
+                reload_time=2
             ),
             4: ThrowingWeapon(
                 'flash grenade',
@@ -71,6 +73,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
                     self.current_weapon = i
 
         weapon = self.arsenal[self.current_weapon]
+        if isinstance(weapon, RangedWeapon):
+            weapon.update_reload(dt)
         movement = pygame.math.Vector2(0,0)
 
         if keys[pygame.K_a]:
@@ -81,6 +85,9 @@ class PlayerKapibara(pygame.sprite.Sprite):
             self.flip_image(is_facing_left=False)
         if keys[pygame.K_SPACE]:
             self.jump()
+        if keys[pygame.K_r]:
+            if isinstance(weapon, RangedWeapon):
+                weapon.reload()
 
         if movement.length() > 0:
             movement = movement.normalize()

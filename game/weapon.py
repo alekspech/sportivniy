@@ -26,10 +26,25 @@ class Weapon(pygame.sprite.Sprite):
             screen.blit(self.flipped_image, screen_position)
 
 class RangedWeapon(Weapon):
-    def __init__(self, weapon_name, bullets_count, damage, fire_rate, img_path):
+    def __init__(self, weapon_name, bullets_count, damage, fire_rate, img_path, reload_time):
         super().__init__(weapon_name, damage, fire_rate, img_path)
-        self.bullets_count = bullets_count
-        
+        self.bullets_count = bullets_count #сейчас патронов в обойме
+        self.max_bullets_count = bullets_count#патронов в обойме
+        self.reload_time = reload_time
+        self.reload_timer = 0
+        self.reloading = False
+
+    def reload(self):
+        self.reloading = True
+        self.reload_timer = self.reload_time
+    
+    def update_reload(self,dt):
+        if self.reloading:
+            self.reload_timer -= dt
+            if self.reload_timer <= 0:
+                self.bullets_count = self.max_bullets_count
+                self.reloading = False
+
     def shoot(self,dt, bullets_group, camera_offset, player):
         self.bullet_timer -= dt
         if self.bullet_timer <= 0:
