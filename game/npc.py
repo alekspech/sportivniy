@@ -30,7 +30,12 @@ class NPC(pygame.sprite.Sprite):
         bullet = pygame.sprite.spritecollideany(self, bullets_group)
         if bullet is not None:
             bullet_damage = bullet.damage
+            bullet_position = bullet.rect.center
+            bullet_position_y = bullet_position[1]
             bullets_group.remove(bullet)
+            npc_head_position_y = self.rect.y + self.rect.height//3 
+            if bullet_position_y <= npc_head_position_y:
+                bullet_damage = bullet_damage*10
             self.hp -= bullet_damage
             if self.hp < 0:
                 self.hp = 0
