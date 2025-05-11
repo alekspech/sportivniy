@@ -35,6 +35,8 @@ class RangedWeapon(Weapon):
         self.reloading = False
 
     def reload(self):
+        if self.reloading or self.bullets_count == self.max_bullets_count:
+            return
         self.reloading = True
         self.reload_timer = self.reload_time
     
@@ -46,6 +48,11 @@ class RangedWeapon(Weapon):
                 self.reloading = False
 
     def shoot(self,dt, bullets_group, camera_offset, player):
+        if self.reloading:
+            return
+        if self.bullets_count <= 0:
+            self.reload()
+            return
         self.bullet_timer -= dt
         if self.bullet_timer <= 0:
             mouse_position = pygame.math.Vector2(
@@ -75,6 +82,7 @@ class RangedWeapon(Weapon):
                     damage=self.damage
                 )
             )# выстрел
+            self.bullets_count = self.bullets_count - 1
             self.bullet_timer = self.fire_rate
         
 

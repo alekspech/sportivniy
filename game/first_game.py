@@ -62,9 +62,6 @@ while is_game_running: # основной цикл игры
         screen_height*3/4
     )
 
-
-    
-    
     player_position_screen = player.world_position - camera_offset
 
     player_group.update(dt, bullets_group, walls_group, camera_offset, npc_group)
@@ -77,6 +74,8 @@ while is_game_running: # основной цикл игры
     for player in player_group:
         player.draw_hp(screen, camera_offset)
         player.draw(screen, camera_offset)
+        player.draw_ammo(screen)
+        
 
         if player.hp <= 0:
             exit()

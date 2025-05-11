@@ -160,4 +160,45 @@ class PlayerKapibara(pygame.sprite.Sprite):
         screen_position = self.world_position - camera_offset
         screen.blit(self.image, screen_position)
         self.arsenal[self.current_weapon].draw(screen, camera_offset, self)
-        
+    
+    def draw_ammo(self, screen):
+        weapon = self.arsenal[self.current_weapon]
+        if not isinstance(weapon, RangedWeapon):
+            return
+        text_color = (255,255,255)
+        bar_bg_color = (50,50,50)
+        bar_fg_color = (52,42,200)
+        text_generator = pygame.font.SysFont('Comic Sans MS', size=30)
+        ammo_text = f'{weapon.bullets_count} / {weapon.max_bullets_count}'
+        text_render = text_generator.render(ammo_text,True, text_color)
+        text_rect = text_render.get_rect()
+        text_rect.bottomleft = (screen.get_width()-10-text_rect.width,screen.get_height()-10)
+        screen.blit(text_render, text_rect)
+
+        if weapon.reloading:
+            bar_width = 100
+            bar_height = 10
+            bar_x = 50
+            bar_y = text_rect.top - 20
+            reload_progress = 1 - (weapon.reload_timer / weapon.reload_time)
+
+            pygame.draw.rect(
+                screen, 
+                bar_bg_color, 
+                (
+                    bar_x, 
+                    bar_y, 
+                    bar_width, 
+                    bar_height
+                )
+            )
+            pygame.draw.rect(
+                screen, 
+                bar_fg_color, 
+                (
+                    bar_x, 
+                    bar_y, 
+                    int(bar_width * reload_progress), 
+                    bar_height
+                )
+            )
