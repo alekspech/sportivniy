@@ -4,6 +4,7 @@ import random
 from game.game_settings import *
 from game.bullet import Bullet
 from game.game_tools import round_vector
+from game.wall import create_wall_from_points, Wall
 from game.weapon import RangedWeapon, MeleeWeapon, ThrowingWeapon
 
 class PlayerKapibara(pygame.sprite.Sprite):
@@ -59,11 +60,40 @@ class PlayerKapibara(pygame.sprite.Sprite):
             )
         }
         self.current_weapon = 1
+        self.kills_counter = 0
+        self.building_timer = 0
+        self.building_time = 2
 
     def jump(self):
         if self.is_on_ground:
             self.speed.y = self.jump_power
             self.is_on_ground = False
+
+    def build(self, dt, walls_group, camera_offset):
+        if self.building_timer <= 0:
+            mouse_screen_pos = pygame.mouse.get_pos()
+            mouse_world_pos = pygame.math.Vector2(mouse_screen_pos) + camera_offset
+
+            # Optional: snap to grid (e.g., 50x50 tiles)
+            grid_size = 50
+            wall_x = int(mouse_world_pos.x // grid_size) * grid_size
+            wall_y = int(mouse_world_pos.y // grid_size) * grid_size
+
+            wall_width = grid_size
+            wall_height = grid_size // 2
+
+            new_wall = Wall(
+                x=wall_x,
+                y=wall_y,
+                width=wall_width,
+                height=wall_height,
+                color='black'
+            )
+            walls_group.add(new_wall)
+            self.building_timer = self.building_time
+
+        
+
 
     def update(self, dt, bullets_group, walls_group, camera_offset, npc_group):
         keys = pygame.key.get_pressed()
@@ -88,6 +118,13 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if keys[pygame.K_r]:
             if isinstance(weapon, RangedWeapon):
                 weapon.reload()
+        if keys[pygame.K_k]:
+            if isinstance(weapon, RangedWeapon):
+                    weapon.shoot(dt, bullets_group, camera_offset, self)
+            elif isinstance(weapon, MeleeWeapon):
+                weapon.attack(dt, self, npc_group)
+        if keys[pygame.K_b]:
+            self.build(dt, walls_group, camera_offset)
 
         if movement.length() > 0:
             movement = movement.normalize()
@@ -123,8 +160,6 @@ class PlayerKapibara(pygame.sprite.Sprite):
         screen_position = self.world_position - camera_offset
         player_center_x = screen_position.x + self.rect.width//2
 
-
-
         mouse_x, mouse_y = pygame.mouse.get_pos()
         mouse_buttons = pygame.mouse.get_pressed()
         if mouse_buttons[0]:
@@ -136,6 +171,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
                 weapon.shoot(dt, bullets_group, camera_offset, self)
             elif isinstance(weapon, MeleeWeapon):
                 weapon.attack(dt, self, npc_group)
+        self.building_timer -= dt
 
     def draw_hp(self, screen, camera_offset):
         hp_position = self.world_position - camera_offset
@@ -161,7 +197,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
         screen.blit(self.image, screen_position)
         self.arsenal[self.current_weapon].draw(screen, camera_offset, self)
     
-    def draw_ammo(self, screen):
+    def draw_ammo(self, screen, camera_offset):
+        screen_position = self.world_position - camera_offset
         weapon = self.arsenal[self.current_weapon]
         if not isinstance(weapon, RangedWeapon):
             return
@@ -178,8 +215,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if weapon.reloading:
             bar_width = 100
             bar_height = 10
-            bar_x = 50
-            bar_y = text_rect.top - 20
+            bar_x = screen_position.x - self.rect.w//2
+            bar_y = screen_position.y - 20
             reload_progress = 1 - (weapon.reload_timer / weapon.reload_time)
 
             pygame.draw.rect(
