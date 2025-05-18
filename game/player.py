@@ -18,6 +18,7 @@ class PlayerKapibara(pygame.sprite.Sprite):
         self.rect.y = player_y - self.rect.height
         self.hp = player_hp
         self.world_position = pygame.math.Vector2(player_x, player_y)
+        self.kills_count = 0
         
 
         self.jump_power = player_jump_power
@@ -161,7 +162,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
         screen.blit(self.image, screen_position)
         self.arsenal[self.current_weapon].draw(screen, camera_offset, self)
     
-    def draw_ammo(self, screen):
+    def draw_ammo(self, screen, camera_offset):
+        screen_position = self.world_position - camera_offset
         weapon = self.arsenal[self.current_weapon]
         if not isinstance(weapon, RangedWeapon):
             return
@@ -178,8 +180,8 @@ class PlayerKapibara(pygame.sprite.Sprite):
         if weapon.reloading:
             bar_width = 100
             bar_height = 10
-            bar_x = 50
-            bar_y = text_rect.top - 20
+            bar_x = screen_position.x - self.rect.width//2
+            bar_y = screen_position.y - 20
             reload_progress = 1 - (weapon.reload_timer / weapon.reload_time)
 
             pygame.draw.rect(
