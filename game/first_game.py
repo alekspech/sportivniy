@@ -63,6 +63,8 @@ while is_game_running: # основной цикл игры
     for npc in npc_group:
         npc.draw(screen, camera_offset)
         npc.draw_hp(screen, camera_offset)
+        if npc.world_position.y > 12000:
+            npc_group.remove(npc)
         if npc.hp <= 0:
             npc_group.remove(npc)
             player.kills_counter += 1
@@ -105,6 +107,21 @@ while is_game_running: # основной цикл игры
         (255,0,0)
     )
     screen.blit(text, dest=(0,60))
+    walls_str = 'walls: {}'.format(len(walls_group))
+    text = text_generator.render(
+        walls_str,
+        1,
+        (255,0,0)
+    )
+    screen.blit(text, dest=(0,90))
+    npc_text = text_generator.render(
+        f'enemies: {len(npc_group)}', True, (0, 0, 255)
+    )
+    screen.blit(npc_text, (0, 120))
+    fps_text = text_generator.render(
+        f'FPS: {clock.get_fps():.1f}', True, (0, 0, 255)
+    )
+    screen.blit(fps_text, (0, 160))
     log_file.write(game_time_str + ', ')
     log_file.write(player_position_str + ', ')
     log_file.write(player_speed_str + '\n')

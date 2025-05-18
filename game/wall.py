@@ -2,14 +2,6 @@ import pygame
 from varname.helpers import debug
 import random
 
-def create_wall_from_points(x1, y1, x2, y2, color):
-    x = min(x1, x2)
-    y = min(y1, y2)
-    width = abs(x2 - x1)
-    height = abs(y2 - y1)
-    return Wall(x, y, width, height, color)
-
-
 class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color):
         super().__init__()
@@ -73,3 +65,10 @@ def generate_walls():
             walls_group.add(wall)
 
     return walls_group
+
+def create_wall_from_points(x1, y1, x2, y2, color):
+    x = min(x1, x2)
+    y = min(y1, y2)
+    width = abs(x2 - x1)
+    height = abs(y2 - y1)
+    return Wall(x, y, width, height, color)
