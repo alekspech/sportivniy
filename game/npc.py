@@ -27,6 +27,7 @@ class NPC(pygame.sprite.Sprite):
         self.is_on_ground = False
 
     def collide_bullet(self, bullets_group):
+        ''' пересечение с пулей '''
         bullet = pygame.sprite.spritecollideany(self, bullets_group)
         if bullet is not None:
             bullet_damage = bullet.damage

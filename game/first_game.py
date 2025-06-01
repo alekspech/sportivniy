@@ -74,6 +74,7 @@ while is_game_running: # основной цикл игры
             player.kills_count = player.kills_count+1
         if npc.world_position.y >= 8000:
             npc_group.remove(npc)
+       
     for player in player_group:
         player.draw_hp(screen, camera_offset)
         player.draw(screen, camera_offset)
@@ -82,14 +83,16 @@ while is_game_running: # основной цикл игры
 
         if player.hp <= 0:
             exit()
-    walls_group.update()
-    # walls_group.draw(screen)
-    for wall in walls_group:
-        wall.draw(screen, camera_offset)
     bullets_group.update(dt)
     # bullets_group.draw(screen)
     for bullet in bullets_group:
         bullet.draw(screen, camera_offset)
+    walls_group.update(bullets_group)
+    for wall in walls_group:
+        wall.draw(screen, camera_offset)
+        wall.draw_hp(screen, camera_offset)
+        if wall.hp <= 0:
+            walls_group.remove(wall)
     player_position_str = 'player: {}'.format(player.world_position)
     text = text_generator.render(
         player_position_str, 1,(0,0,0)

@@ -41,3 +41,4 @@ grenade_bullets_count = 1
 flash_time = 10
 flash_attack_range=10
 flash_damage = 0
+wall_hp = 50
