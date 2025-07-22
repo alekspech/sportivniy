@@ -35,15 +35,23 @@ class Wall(pygame.sprite.Sprite):
             bullet_position = bullet.rect.center
             bullets_group.remove(bullet)
             self.hp -= bullet_damage
-            if self.hp < 0:
-                self.hp = 0
+            if self.hp <= 0:
+                self.kill()
 
     def update(self, bullets_group):
         self.collide_bullet(bullets_group)
-        
+
+class Walls(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
+
+    def draw(self, screen, camera_offset):
+        for sprite in self.sprites():
+            sprite.draw(screen, camera_offset)
+            # sprite.draw_hp(screen, camera_offset)
 
 def generate_walls():
-    walls_group = pygame.sprite.Group()
+    walls_group = Walls()
 
     # Define parameters
     level_height = 450  # Vertical distance between levels

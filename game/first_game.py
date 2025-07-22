@@ -3,7 +3,7 @@ import os
 from varname.helpers import debug
 import random
 from game.player import PlayerKapibara
-from game.bullet import Bullet
+from game.bullet import Bullets
 from game.wall import Wall, generate_walls
 from game.npc import NPC
 from game.game_settings import *
@@ -34,8 +34,8 @@ player = PlayerKapibara(
 npc_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 walls_group = generate_walls()
-bullets_group = pygame.sprite.Group()
-
+bullets_group = Bullets()
+    
 player_group.add([player])
 game_frame_number = 0 
 last_npc_spawn_time = 0
@@ -71,20 +71,15 @@ while is_game_running: # основной цикл игры
         player.draw_hp(screen, camera_offset)
         player.draw(screen, camera_offset)
         player.draw_ammo(screen, camera_offset)
-        
 
         if player.hp <= 0:
             exit()
     bullets_group.update(dt)
-    # bullets_group.draw(screen)
-    for bullet in bullets_group:
-        bullet.draw(screen, camera_offset)
+    bullets_group.draw(screen, camera_offset)
+   
     walls_group.update(bullets_group)
-    for wall in walls_group:
-        wall.draw(screen, camera_offset)
-        # wall.draw_hp(screen, camera_offset)
-        if wall.hp <= 0:
-            walls_group.remove(wall)
+    walls_group.draw(screen,camera_offset)
+    
     player_position_str = 'player: {}'.format(player.world_position)
     text = text_generator.render(
         player_position_str, 1,(0,0,0)

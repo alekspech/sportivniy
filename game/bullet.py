@@ -25,3 +25,11 @@ class Bullet(pygame.sprite.Sprite):
         rotated_img = pygame.transform.rotate(self.image, bullet_angle)
         screen_position = self.world_position - camera_offset
         screen.blit(rotated_img, screen_position)
+
+class Bullets(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
+
+    def draw(self, screen, camera_offset):
+        for sprite in self.sprites():
+            sprite.draw(screen, camera_offset)
