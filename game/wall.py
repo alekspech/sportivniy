@@ -40,6 +40,7 @@ class Wall(pygame.sprite.Sprite):
 
     def update(self, bullets_group):
         self.collide_bullet(bullets_group)
+        
 
 def generate_walls():
     walls_group = pygame.sprite.Group()

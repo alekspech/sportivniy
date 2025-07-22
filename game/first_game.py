@@ -37,14 +37,6 @@ walls_group = generate_walls()
 bullets_group = pygame.sprite.Group()
 
 player_group.add([player])
-# walls_group.add(
-#     [
-#         Wall(x=0, y=0, width=10000, height=10, color='black' ),
-#         Wall(x=-200, y=0, width=100, height=10, color='yellow' ),
-#         Wall(x=-400, y=0 ,width=100, height=10, color='green' ),
-#         Wall(x=-400, y=-100, width=10, height=100, color='green' ),
-#     ]
-# )
 game_frame_number = 0 
 last_npc_spawn_time = 0
 while is_game_running: # основной цикл игры
@@ -90,7 +82,7 @@ while is_game_running: # основной цикл игры
     walls_group.update(bullets_group)
     for wall in walls_group:
         wall.draw(screen, camera_offset)
-        wall.draw_hp(screen, camera_offset)
+        # wall.draw_hp(screen, camera_offset)
         if wall.hp <= 0:
             walls_group.remove(wall)
     player_position_str = 'player: {}'.format(player.world_position)
