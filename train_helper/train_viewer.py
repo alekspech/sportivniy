@@ -59,8 +59,8 @@ class AnswerButton:
         if self.rect.collidepoint(pos):
             self.active = not self.active
 
-# TODO
-# вьювер не использует тип вопроса, сейчас он по умолчанию работает по QuestionType.CHOISE, нужно добавить эту логику
+# TODO вьювер не использует тип вопроса, сейчас он по умолчанию работает по QuestionType.CHOISE, нужно добавить эту логику
+# TODO перемешать ответы, сохранить перемешанный порядок
 class QuizApp:
     def __init__(self, questions: list[Question]):
         self.questions = questions
