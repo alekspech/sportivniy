@@ -177,13 +177,31 @@ def draw_panel(surf, lines, selected_idx_set, angle_display, mouse: V2):
 # ============================= СУЩНОСТИ ===========================
 class Segment:
     __slots__ = ("p1", "p2")
+
     def __init__(self, p1: V2, p2: V2):
         self.p1 = V2(p1)
         self.p2 = V2(p2)
+
     def draw(self, surf, color, width=3):
         pygame.draw.line(surf, color, self.p1, self.p2, width)
         pygame.draw.circle(surf, POINT_COL, self.p1, 4)
         pygame.draw.circle(surf, POINT_COL, self.p2, 4)
+
+        # --- draw arrowhead at p2 ---
+        direction = (self.p2 - self.p1)
+        if direction.length() > 0:
+            direction = direction.normalize()
+            # make arrow smaller for thick lines
+            arrow_size = 14 + width * 1.2
+            left = direction.rotate(30) * (arrow_size * 0.6)
+            right = direction.rotate(-30) * (arrow_size * 0.6)
+            tip = self.p2
+            pygame.draw.polygon(
+                surf,
+                color,
+                [tip, tip - left, tip - right],
+            )
+
 
 # ============================= MAIN ===============================
 def main():
