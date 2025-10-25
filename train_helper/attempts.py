@@ -2,8 +2,30 @@ import json
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 import os
+from dataclasses import dataclass, asdict
+from datetime import datetime
+import getpass
 
 DEFAULT_PATH = "train_helper/data/attempts.json"
+
+@dataclass(slots=True)
+class Attempt:
+    question_id: str
+    is_correct: bool
+    timestamp: str
+    username: str
+
+    @classmethod
+    def create(cls, question_id: str, is_correct: bool) -> "Attempt":
+        return cls(
+            question_id=question_id,
+            is_correct=is_correct,
+            timestamp=datetime.now().isoformat(),
+            username=getpass.getuser()
+        )
+    
+    def dict(self):
+        return {k: str(v) for k, v in asdict(self).items()}
 
 class AttemptStorage:
     def __init__(self, path: str = DEFAULT_PATH):
@@ -25,11 +47,12 @@ class AttemptStorage:
         with open(self.path, "w", encoding="utf-8") as f:
             json.dump(self._data, f, ensure_ascii=False, indent=2)
 
-    def add_attempt(self, question_id: str, result: bool, timestamp: Optional[str] = None):
-        entry = {
-            "ts": timestamp or datetime.utcnow().isoformat(),
-            "result": int(result)
-        }
+    def add_attempt(self, question_id: str, result: bool):
+        # entry = {
+        #     "ts": timestamp or datetime.utcnow().isoformat(),
+        #     "result": int(result)
+        # }
+        entry = Attempt.create(question_id, result).dict()
         if question_id not in self._data:
             self._data[question_id] = []
         self._data[question_id].append(entry)

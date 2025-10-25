@@ -6,6 +6,7 @@ from uuid import uuid4
 
 class Field(Enum):
     PYTHON = "python"
+    DEFAULT = "def"
 
 
 class QuestionType(Enum):
@@ -48,7 +49,7 @@ class Answer:
 @dataclass(slots=True)
 class Question:
     id: str = dc_field(default_factory=_new_id)
-    field: Field = Field.PYTHON
+    field: Field = Field.DEFAULT
     topic: str = "python"
     task: str = ""
     question_type: QuestionType = QuestionType.CHOICE

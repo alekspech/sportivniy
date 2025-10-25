@@ -5,7 +5,7 @@ from train_helper.data_classes import Question, Answer, QuestionType
 from attempts import AttemptStorage
 
 pygame.init()
-screen = pygame.display.set_mode((1920, 1440), pygame.FULLSCREEN | pygame.SCALED)
+screen = pygame.display.set_mode((1500, 1050), pygame.FULLSCREEN | pygame.SCALED)
 clock = pygame.time.Clock()
 FONT = pygame.font.SysFont("Arial", 28)
 SMALL = pygame.font.SysFont("Arial", 20)
@@ -59,6 +59,8 @@ class AnswerButton:
         if self.rect.collidepoint(pos):
             self.active = not self.active
 
+# TODO
+# вьювер не использует тип вопроса, сейчас он по умолчанию работает по QuestionType.CHOISE, нужно добавить эту логику
 class QuizApp:
     def __init__(self, questions: list[Question]):
         self.questions = questions
