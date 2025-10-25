@@ -1,0 +1,626 @@
+[
+  {
+    "id": "66256b2b-da69-4307-908e-2c43c773b2fc",
+    "field": "python",
+    "topic": "python",
+    "task": "Какие три основных типа данных используются в компьютере для представления величин реального мира? Привести один-два предмета или его свойства, представленного с помощью каждого из типа данных.",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "bebed19c-5def-4c87-bfe8-242790b38bd6",
+        "data": "Числа (например, рост, вес), строки (имя, цвет), логические значения (да/нет)",
+        "is_true": 1
+      },
+      {
+        "id": "98103a6d-16fb-4bac-8069-cf0255e14b85",
+        "data": "Только числа и строки",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "1089a39a-8fbc-4acb-aaae-f77756b50b79",
+    "field": "python",
+    "topic": "python",
+    "task": "Что делает функция type()?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "e4c614f8-0d2f-426b-8b53-315b838f5beb",
+        "data": "Определяет тип переменной",
+        "is_true": 1
+      },
+      {
+        "id": "133eb179-b53f-4645-82bf-9c3a006b462b",
+        "data": "Выводит текст",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "2decb100-7bb9-4f8f-8852-835108ef334c",
+    "field": "python",
+    "topic": "python",
+    "task": "Что делает функция len()?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "a2e07129-da4b-42b0-acdc-ad902a8540cd",
+        "data": "Возвращает длину (число элементов)",
+        "is_true": 1
+      },
+      {
+        "id": "cabad9b1-20c0-4b40-8222-8cafbdd8b964",
+        "data": "Считает сумму",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "13ac589f-c177-4a62-a96f-d3319d772fd9",
+    "field": "python",
+    "topic": "python",
+    "task": "Какое ключевое слово и какой символ используется для вставки переменной в указанное место строки?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "b25e1058-bf53-4ede-86ab-0a21d7c3b018",
+        "data": "f-строка и фигурные скобки {}",
+        "is_true": 1
+      },
+      {
+        "id": "57a640b2-43f8-4b78-b592-1fa8b4b838e5",
+        "data": "%",
+        "is_true": 0
+      },
+      {
+        "id": "9f165bb7-aa3f-49b6-818b-a8a3f2910a37",
+        "data": "+",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "bcefbe14-7610-4da3-81a1-0b1799a54312",
+    "field": "python",
+    "topic": "python",
+    "task": "Одинаковые ли строки '2023-03-11' и '2023-03-11 '?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "b8241791-0a62-4e58-bb7d-36b34ca00b03",
+        "data": "Нет, во второй есть пробел в конце",
+        "is_true": 1
+      },
+      {
+        "id": "521c4765-eb0a-4108-ac58-bec4b6c32981",
+        "data": "Да",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "2eab872c-002a-45de-8c14-b1d4d9bef733",
+    "field": "python",
+    "topic": "python",
+    "task": "Ко всем ли типам данных можно обращаться с помощью индекса (операции []) и функции len()?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "318c138b-64f4-4963-bcbf-a9cfdcfa120c",
+        "data": "Нет, только к индексируемым: строкам, спискам и т.п.",
+        "is_true": 1
+      },
+      {
+        "id": "d7c3e3c9-944b-4ab8-80c3-ba1abc0b87e7",
+        "data": "Да",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "5e81ad93-383a-45b7-9a01-fe39390369c2",
+    "field": "python",
+    "topic": "python",
+    "task": "С помощью какого ключевого слова проверяется условие? Как проверить, что переменная строго равна определенному значению?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "6bfd7d18-82c7-4563-96b8-e9992abe7751",
+        "data": "if и == (двойное равенство)",
+        "is_true": 1
+      },
+      {
+        "id": "07a355f8-69c3-445e-8fa8-b6146f88d50a",
+        "data": "while и =",
+        "is_true": 0
+      },
+      {
+        "id": "a68c3dc6-6e3c-4972-b788-e4c7c036e598",
+        "data": "elif и =",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "9a595782-256b-43e2-9ee8-48d015d8a0c2",
+    "field": "python",
+    "topic": "python",
+    "task": "Где применяются и как работают ключевые слова and и or?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "edcf2145-ff51-4ef7-b8ed-e7ad04dfbdb2",
+        "data": "В логических выражениях: and требует оба условия True, or — хотя бы одно",
+        "is_true": 1
+      },
+      {
+        "id": "e3280974-f7e5-435d-9661-fd1b7aefe8a5",
+        "data": "Для объединения строк",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "324b1f70-b7d7-4ea3-8580-c7d9f5c066c8",
+    "field": "python",
+    "topic": "python",
+    "task": "С помощью какой функции можно быстро сделать интервал чисел от 0 до 100?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "a35df318-19e1-45b3-838f-bb55fb9e61b5",
+        "data": "range()",
+        "is_true": 1
+      },
+      {
+        "id": "147f4ede-d4f2-4156-967b-6fc8e1cbb70f",
+        "data": "list()",
+        "is_true": 0
+      },
+      {
+        "id": "3c3534bc-a8f8-4fd4-aa20-bdea5250368a",
+        "data": "interval()",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "d99a8a43-ef80-49bf-bfd5-4068516fd682",
+    "field": "python",
+    "topic": "python",
+    "task": "С помощью какой функции можно дать пользователю ввести значение переменной с клавиатуры во время запуска программы?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "c4110ab1-fe35-44d2-8441-fca8be36e0bf",
+        "data": "input()",
+        "is_true": 1
+      },
+      {
+        "id": "087529e2-ffef-40a8-a1da-3d71d484fae9",
+        "data": "scan()",
+        "is_true": 0
+      },
+      {
+        "id": "62223f27-87d2-4dda-9907-f655ae71d5bc",
+        "data": "print()",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "c15478e9-6298-4b90-932b-487c7741242e",
+    "field": "python",
+    "topic": "python",
+    "task": "С помощью какой функции можно моментально выйти из программы?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "55721663-5006-4a2a-92ea-879385632553",
+        "data": "exit()",
+        "is_true": 1
+      },
+      {
+        "id": "95adea3e-e74d-43e5-8352-37c37534a725",
+        "data": "quit()",
+        "is_true": 1
+      },
+      {
+        "id": "709e9e20-7af6-4381-80de-a7bd4a4deee4",
+        "data": "print()",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "e2d7cf85-7c48-454f-9e31-c712494a1855",
+    "field": "python",
+    "topic": "python",
+    "task": "С помощью какого ключевого слова можно по очереди получить каждый элемент списка или каждый символ строки?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "910718e1-fc4f-4372-a9c0-d54575a98149",
+        "data": "for",
+        "is_true": 1
+      },
+      {
+        "id": "b9fbafe8-9c03-4f37-ad48-2b4ccd1b62c0",
+        "data": "while",
+        "is_true": 0
+      },
+      {
+        "id": "5304ebb8-f1ad-4232-af75-be09abb83a47",
+        "data": "loop",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "b66fe91d-7493-4f2d-8be2-b2d3cb439d47",
+    "field": "python",
+    "topic": "python",
+    "task": "С помощью какого ключевого слова мы создаем функцию? Зачем у функции скобки?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "494e72ee-7e31-40a9-bc1f-5520322c793e",
+        "data": "def, чтобы передавать аргументы",
+        "is_true": 1
+      },
+      {
+        "id": "d2b3e96f-fcd2-4740-ba96-425936bb11c6",
+        "data": "create, чтобы задать область видимости",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "295d34c6-44b8-4ac2-a9f5-4317ba2d9371",
+    "field": "python",
+    "topic": "python",
+    "task": "Зачем используется двоеточие и в каких случаях оно ставится в Python?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "6e1b6e9c-f75d-42b2-876a-7769ea8a7358",
+        "data": "После определения блока: if, def, for, while",
+        "is_true": 1
+      },
+      {
+        "id": "b1c72a99-d3b7-4090-b6c5-63ae4396656f",
+        "data": "Только в списках",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "f8fefa92-dbfe-478e-af11-978bfdc924c0",
+    "field": "python",
+    "topic": "python",
+    "task": "Зачем в Python используется табуляция (начало строки не с красной, а с одним или несколькими отступами)?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "24605264-418e-497d-8dd7-1016b3a56fca",
+        "data": "Чтобы задать структуру кода — блоки",
+        "is_true": 1
+      },
+      {
+        "id": "acf80248-6bad-4f36-8a0a-e2f6434b5dd6",
+        "data": "Для красоты",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "a08c52c4-980d-447c-b730-c3174df10f6d",
+    "field": "python",
+    "topic": "python",
+    "task": "Как работают ключевые слова break и continue? В любом ли участке кода можно использовать эти слова?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "c8f48bdd-39ed-43a6-93eb-d2f0de97eed3",
+        "data": "break выходит из цикла, continue пропускает итерацию. Только в цикле.",
+        "is_true": 1
+      },
+      {
+        "id": "2597bcf8-f80e-4547-831b-7b2ae6d60aff",
+        "data": "Работают в любом месте",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "c4986208-f7cd-43b7-89cd-edb5772881f2",
+    "field": "python",
+    "topic": "python",
+    "task": "Как работает и где используется ключевое слово return?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "825159e1-3fd3-47fa-af0f-92e1c14ae87f",
+        "data": "Завершает функцию и возвращает значение",
+        "is_true": 1
+      },
+      {
+        "id": "9296e930-48de-43a0-a18e-d6e88870be09",
+        "data": "Для цикла",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "841f111d-f56c-4c37-9eec-8b6dd4bdecdf",
+    "field": "python",
+    "topic": "python",
+    "task": "Как вывести несколько переменных с помощью функции print(), не используя форматирование через ''.format?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "511aaee6-d13a-4eaf-bae7-53c4983d05f6",
+        "data": "Через запятую",
+        "is_true": 1
+      },
+      {
+        "id": "de63e115-5be1-4d76-a80e-9d65241168a7",
+        "data": "Через f-строку",
+        "is_true": 1
+      },
+      {
+        "id": "9f885c6c-0ec0-4f56-9c98-ab1f2cb05289",
+        "data": "Через +",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "bd750f20-b50b-4a2a-b2d4-9518230eb4da",
+    "field": "python",
+    "topic": "python",
+    "task": "Как проверить наличие симлова в строке или списке?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "8b46c2bd-8c2a-4b2d-8796-1f27d92a4e95",
+        "data": "'a' in text",
+        "is_true": 1
+      },
+      {
+        "id": "a489256e-0f09-41ae-afa8-a871fc19be19",
+        "data": "contains('a')",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "a7c23134-9d86-43d7-ab7e-2f7f1a93e471",
+    "field": "python",
+    "topic": "python",
+    "task": "Как проверить, что символы в тексте являются числами?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "78808707-dcd2-47e4-9234-0312b50d9f5e",
+        "data": "text.isdigit()",
+        "is_true": 1
+      },
+      {
+        "id": "9fc9a635-d13e-4fb4-9f19-0ef36985ab4e",
+        "data": "int(text)",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "3aee4856-dee0-4071-96e2-a2fbb268af38",
+    "field": "python",
+    "topic": "python",
+    "task": "С какого значения считается первый индекс элемента в строке? Возможна ли отрицательная индексация text[-3] и что она обозначает?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "282769ba-3f7f-450e-9830-565df2ad6913",
+        "data": "С 0, отрицательная возможна и считает с конца",
+        "is_true": 1
+      },
+      {
+        "id": "45490734-b114-44b6-a22d-a0f06f709824",
+        "data": "С 1, отрицательная невозможна",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "41ee847a-e8c2-4cb8-8311-7f9b5a24c6aa",
+    "field": "python",
+    "topic": "dict",
+    "task": "Чем словарь отличается от list-а? Как устроено перечисление нескольких элементов в словаре?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "0fe66a1d-5e79-41b9-9312-206fbaa0a7f5",
+        "data": "Словарь — это пары ключ:значение, list — это упорядоченные элементы",
+        "is_true": 1
+      },
+      {
+        "id": "7938ca6f-3bf0-4a64-bbb2-d30c8b142ad4",
+        "data": "Словари используют только числа",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "14765dc5-d0aa-48cf-8120-d815ba043b9d",
+    "field": "python",
+    "topic": "dict",
+    "task": "Методы keys(), values(), items() словаря",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "482fbfdf-3f44-4f9d-a86b-df5149ae03ce",
+        "data": "keys() — ключи, values() — значения, items() — пары",
+        "is_true": 1
+      },
+      {
+        "id": "d680a2e3-e7e5-4d13-8e47-61ca56147e6a",
+        "data": "keys() — позиции, values() — индексы",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "f7035e27-38e0-4003-8ed6-b58efd9a0117",
+    "field": "python",
+    "topic": "dict",
+    "task": "Как добавить новый ключ в словарь?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "7ffeb005-5ec0-4d2e-bbfa-5dc5bb27841c",
+        "data": "dict['новый'] = значение",
+        "is_true": 1
+      },
+      {
+        "id": "54d11800-a5d0-4ef9-b1e5-352be4b3e615",
+        "data": "dict.add('новый')",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "426e005c-e060-4a31-9d7c-2af8fc0a512e",
+    "field": "python",
+    "topic": "dict",
+    "task": "Как проверить наличия ключа в словаре?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "020dc26b-5a98-4bad-8ad6-d34a1d44746d",
+        "data": "'ключ' in dict",
+        "is_true": 1
+      },
+      {
+        "id": "66dcfda4-12bf-45cb-bd40-459d5f379d29",
+        "data": "dict.has('ключ')",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "6d50c699-7240-4da2-ab8d-62885f22f830",
+    "field": "python",
+    "topic": "dict",
+    "task": "Может ли словарь находиться внутри другого словаря?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "41e46913-f875-4d9d-9deb-f5ca862fa36c",
+        "data": "Да",
+        "is_true": 1
+      },
+      {
+        "id": "c9316023-194a-47bf-b666-87948c65b5e0",
+        "data": "Нет",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "737557f7-4b05-4982-acb2-00cd0456726a",
+    "field": "python",
+    "topic": "dict",
+    "task": "Что произойдет, если обратиться к несуществующему в словаре ключу?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "a3d601e1-c64f-4304-9c73-185553b6e1e3",
+        "data": "Будет ошибка KeyError",
+        "is_true": 1
+      },
+      {
+        "id": "80048684-a4d1-4de3-814f-7c23b5a83740",
+        "data": "Просто вернётся None",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "f9c8f127-6060-49c4-a79f-664f4ad8ebb5",
+    "field": "python",
+    "topic": "os",
+    "task": "С помощью какой функции можно получить имя файла из его пути?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "0e73a497-d748-4703-aaea-6fc03e5407a7",
+        "data": "os.path.basename()",
+        "is_true": 1
+      },
+      {
+        "id": "fcb8b0ba-0900-4d48-ac6e-a2c583307c1d",
+        "data": "os.getname()",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "91c83680-d808-4ddb-8fd3-9544f060f6eb",
+    "field": "python",
+    "topic": "os",
+    "task": "Через какую функцию правильно \"склеивать\" пути?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "e19d92b9-0227-490f-b4b7-3e9a02a2f6cc",
+        "data": "os.path.join()",
+        "is_true": 1
+      },
+      {
+        "id": "5eb01272-d7d0-4eb9-a113-3da551b91b3c",
+        "data": "path + path",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "2cc68f63-6d77-432b-8242-deb6e31dcff0",
+    "field": "python",
+    "topic": "os",
+    "task": "Через какую функцию правильно создавать новую директорию? Какой параметр необходимо указывать и зачем?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "b83e2d96-1d7f-4cba-a9ec-8bf816f4b21a",
+        "data": "os.makedirs(..., exist_ok=True)",
+        "is_true": 1
+      },
+      {
+        "id": "904a884d-fb18-4729-a409-dba8fa1593be",
+        "data": "mkdir()",
+        "is_true": 0
+      }
+    ]
+  },
+  {
+    "id": "56d92508-06b7-4d6e-9c5d-fa72174f4801",
+    "field": "python",
+    "topic": "os",
+    "task": "С помощью какой функции можно получить расширение файла из его пути?",
+    "question_type": "choice",
+    "answers_set": [
+      {
+        "id": "e3787ff2-1383-4dcc-a05a-27d3e2de9a7a",
+        "data": "os.path.splitext()",
+        "is_true": 1
+      },
+      {
+        "id": "4c3d45c9-376f-4a23-b548-c8d9b0656d22",
+        "data": "get_extension()",
+        "is_true": 0
+      }
+    ]
+  }
+]
