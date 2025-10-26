@@ -32,7 +32,10 @@ MAX_LINES = 10
 
 # ============================ INIT =============================
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode(
+    (WIDTH, HEIGHT),
+     pygame.FULLSCREEN | pygame.SCALED
+)
 pygame.display.set_caption("geom.001 — прямые, углы и транспортир")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 22)

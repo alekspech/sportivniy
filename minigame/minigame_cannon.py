@@ -2,7 +2,10 @@ import pygame
 import sys
 
 pygame.init()
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode(
+    (800, 600),
+     pygame.FULLSCREEN | pygame.SCALED
+)
 clock = pygame.time.Clock()
 
 bullet_image = pygame.Surface((40, 10), pygame.SRCALPHA)

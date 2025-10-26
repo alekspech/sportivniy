@@ -3,3 +3,4 @@
 *.pyc
 *.pyo
 log/log.txt
+*.DS_Store
