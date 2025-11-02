@@ -19,7 +19,7 @@ def _new_id() -> str:
     return str(uuid4())
 
 
-@dataclass(slots=True)
+@dataclass#(slots=True)
 class Answer:
     id: str = dc_field(default_factory=_new_id)
     data: str = ""
@@ -46,7 +46,7 @@ class Answer:
         )
 
 
-@dataclass(slots=True)
+@dataclass#(slots=True)
 class Question:
     id: str = dc_field(default_factory=_new_id)
     field: Field = Field.DEFAULT

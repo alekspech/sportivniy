@@ -211,5 +211,5 @@ def load_questions(path: str) -> list[Question]:
 
 
 if __name__ == '__main__':
-    questions = load_questions("train_helper/data/python_questions.json")
+    questions = load_questions("memory_helper/data/python_questions.json")
     quiz = QuizApp(questions)

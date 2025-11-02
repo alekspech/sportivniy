@@ -6,9 +6,9 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 import getpass
 
-DEFAULT_PATH = "train_helper/data/attempts.json"
+DEFAULT_PATH = "memory_helper/data/attempts.json"
 
-@dataclass(slots=True)
+@dataclass#(slots=True)
 class Attempt:
     question_id: str
     is_correct: bool
