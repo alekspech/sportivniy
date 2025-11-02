@@ -2,11 +2,13 @@ from dataclasses import dataclass, field as dc_field
 from typing import List, Optional, Dict, Any
 from enum import Enum
 from uuid import uuid4
+import random
 
 
-class Field(Enum):
+class Field(Enum): # перечисление предметов. (питон математика физика)
     PYTHON = "python"
     DEFAULT = "def"
+    GEOMETRY = 'geometry'
 
 
 class QuestionType(Enum):
@@ -71,13 +73,15 @@ class Question:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "Question":
+        answers = [Answer.from_dict(ad) for ad in d["answers_set"]]
+        random.shuffle(answers)
         return Question(
             id=d["id"],
             field=Field(d["field"]),
             topic=d["topic"],
             task=d["task"],
             question_type=QuestionType(d["question_type"]),
-            answers_set=[Answer.from_dict(ad) for ad in d["answers_set"]],
+            answers_set=answers,
             img_path=d.get("img_path"),
         )
 
