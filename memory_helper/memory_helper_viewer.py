@@ -1,8 +1,8 @@
 import pygame
 import sys
 import json
-from train_helper.data_classes import Question, Answer, QuestionType
-from attempts import AttemptStorage
+from memory_helper.data_classes import Question, Answer, QuestionType
+from memory_helper.attempts import AttemptStorage
 
 pygame.init()
 screen = pygame.display.set_mode((1500, 1050), pygame.FULLSCREEN | pygame.SCALED)

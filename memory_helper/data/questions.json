@@ -1,0 +1,212 @@
+[
+  {
+    "id": "73ca3d4e-2f3f-4ebb-a96b-b2fa532a11bd",
+    "field": "python",
+    "task": "Какие три основных типа данных используются в компьютере для представления величин реального мира?",
+    "img_path": null,
+    "question_type": "choice",
+    "match_data": null,
+    "answers_set": [
+      {
+        "id": "5183fe45-0008-45d3-9bd5-702c28d5db9c",
+        "data": "int, float, str",
+        "is_true": 1,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "3e28e9c6-00f2-41a7-8ac0-50ab3cffd084",
+        "data": "list, dict, str",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "b989b51c-2ff3-4df2-a271-3f7104068b74",
+        "data": "bool, float, dict",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "dadeb40f-3c77-434b-8620-946af5bc09b7",
+        "data": "int, tuple, bool",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      }
+    ]
+  },
+  {
+    "id": "c6a95eaa-52a3-488a-b292-1fc95bdd7177",
+    "field": "python",
+    "task": "Что делает функция type()?",
+    "img_path": null,
+    "question_type": "choice",
+    "match_data": null,
+    "answers_set": [
+      {
+        "id": "3217bfb5-cb7a-4f0b-9741-d4b6179977ad",
+        "data": "Определяет тип объекта",
+        "is_true": 1,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "35686b46-3f6b-44a2-aba7-43a5c6e57247",
+        "data": "Преобразует строку в число",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "f55daa4c-7432-4e85-9b44-75721e65f6d4",
+        "data": "Очищает переменную",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "329defec-b118-4082-9c60-28e6d86582e1",
+        "data": "Измеряет длину объекта",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      }
+    ]
+  },
+  {
+    "id": "6c3c1d95-df21-461b-8f77-6b8588a13f36",
+    "field": "python",
+    "task": "С помощью какой функции можно быстро сделать интервал чисел от 0 до 100?",
+    "img_path": null,
+    "question_type": "choice",
+    "match_data": null,
+    "answers_set": [
+      {
+        "id": "aa589d2c-2457-4453-a194-355b97aa6205",
+        "data": "range",
+        "is_true": 1,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "03c155fc-05c4-4933-b957-d33aacb665e7",
+        "data": "list",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "493efad3-2219-4008-a6e3-b840cad984b5",
+        "data": "interval",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "2aa38d8e-30c0-443e-a71b-8f118c7f2ca4",
+        "data": "for",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      }
+    ]
+  },
+  {
+    "id": "956e5617-26a2-4fff-a844-aa1b11a0a400",
+    "field": "os",
+    "task": "С помощью какой функции можно получить имя файла из его пути?",
+    "img_path": null,
+    "question_type": "choice",
+    "match_data": null,
+    "answers_set": [
+      {
+        "id": "cf7e4af8-fbe6-4c9d-aacc-a2dfa3ef80fb",
+        "data": "os.path.basename",
+        "is_true": 1,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "c1f22506-b015-4b6a-bb6f-1833f9e7fcaf",
+        "data": "os.path.dirname",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "5026a27c-2284-4dd1-91a4-88867d4b159d",
+        "data": "os.path.join",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "d88c7726-7965-4a66-b1b2-cae55cce5f50",
+        "data": "os.path.split",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      }
+    ]
+  },
+  {
+    "id": "df8ad707-3141-4463-b2bc-538d32c17e8f",
+    "field": "os",
+    "task": "С помощью какой функции можно получить расширение файла из его пути?",
+    "img_path": null,
+    "question_type": "choice",
+    "match_data": null,
+    "answers_set": [
+      {
+        "id": "e2ef1209-50a7-4cf1-836e-b69c94935894",
+        "data": "os.path.splitext",
+        "is_true": 1,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "78cb5bca-3c4b-4d31-b938-0117b2cbd682",
+        "data": "os.path.getsize",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "e02ab995-4449-4f62-ba61-10aff44e4fc9",
+        "data": "os.path.join",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      },
+      {
+        "id": "c3868589-2dbe-462d-9050-f51d35e089f2",
+        "data": "os.path.basename",
+        "is_true": 0,
+        "img_path": null,
+        "answer_type": "single",
+        "match_key": null
+      }
+    ]
+  }
+]
