@@ -4,3 +4,4 @@
 *.pyo
 log/log.txt
 *.DS_Store
+**/edu/format/*
