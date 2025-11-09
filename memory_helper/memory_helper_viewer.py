@@ -3,6 +3,7 @@ import sys
 import json
 from memory_helper.data_classes import Question, Answer, QuestionType
 from memory_helper.attempts import AttemptStorage
+import random
 
 pygame.init()
 screen = pygame.display.set_mode((1500, 1050), pygame.FULLSCREEN | pygame.SCALED)
@@ -205,7 +206,9 @@ class QuizApp:
 def load_questions(path: str) -> list[Question]:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    return [Question.from_dict(q) for q in (data if isinstance(data, list) else [data])]
+    questions = [Question.from_dict(q) for q in (data if isinstance(data, list) else [data])]
+    random.shuffle(questions)
+    return questions
 
 
 
