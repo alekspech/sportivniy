@@ -55,6 +55,41 @@ def get_team_names(cs_data):
     names = set(names)
     return names
 
-team_info(cs_data, 'FaZe')
+# team_info(cs_data, 'FaZe')
 teams = get_team_names(cs_data)
-pprint(teams)
+# pprint(teams)
+# 1. написать функцию player_names, которая принимает cs_data, проходит по всем матчам игроков и сохраняет имя игрока в список, потом из списка делает set (множество), попробуй вызвать функцию
+# 2. написать функцию player_deaths, которая принимает два параметра cs_data и player_name, считает количество смертей в отдельную переменную deaths_count, возвращает из функции эту переменную, протестируй с именами нескольких игр
+def map_player_names(cs_data):
+    out = []
+    for i in range(len(cs_data)):
+        player_name = cs_data[i]['player_name']
+        out.append(player_name)
+    out = set(out)
+    return out
+
+players = map_player_names(cs_data)
+# pprint(players)
+# print(len(players))
+def map_player_deaths(cs_data , player_to_find):
+    deaths_count = 0
+    for i in range(len(cs_data)):
+        player_name = cs_data[i]['player_name']
+        if player_name == player_to_find:
+            deaths_count += cs_data[i]['deaths']
+    return deaths_count
+
+d = map_player_deaths(cs_data, 's1mple')
+# print(d)
+def filter_kills_gt(cs_data, kills): #gt - greater than
+    out = []
+    for player_game in cs_data:
+        player_kills = player_game['kills']
+        if player_kills >= kills:
+            out.append(player_game)
+    return out
+
+kills_filtered = filter_kills_gt(cs_data, kills=50)
+# pprint(kills_filtered)
+players_50_kills = map_player_names(kills_filtered)
+print(players_50_kills)
