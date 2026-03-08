@@ -2,6 +2,7 @@ import json
 import os
 from pprint import pprint
 from typing import Dict
+from collections import OrderedDict
 
 def crasivoe_name(match: Dict):
     name = f'{match['date']}:{match['team']}:{match['player_name']}'
@@ -71,7 +72,7 @@ def map_player_names(cs_data):
 players = map_player_names(cs_data)
 # pprint(players)
 # print(len(players))
-def map_player_deaths(cs_data , player_to_find):
+def count_player_deaths(cs_data , player_to_find):
     deaths_count = 0
     for i in range(len(cs_data)):
         player_name = cs_data[i]['player_name']
@@ -79,7 +80,7 @@ def map_player_deaths(cs_data , player_to_find):
             deaths_count += cs_data[i]['deaths']
     return deaths_count
 
-d = map_player_deaths(cs_data, 's1mple')
+d = count_player_deaths(cs_data, 's1mple')
 # print(d)
 def filter_kills_gt(cs_data, kills): #gt - greater than
     out = []
@@ -89,7 +90,58 @@ def filter_kills_gt(cs_data, kills): #gt - greater than
             out.append(player_game)
     return out
 
+def map_main_stats(cs_data):
+    out = []
+    for player_game in cs_data:
+        new_data = OrderedDict({
+            'player_name': player_game['player_name'],
+            'team': player_game['team'],
+            'opponnent': player_game['opponent'],
+            'event_name': player_game['event_name'],
+            'format': player_game['best_of'],
+            'kills': player_game['kills'],
+            'deaths': player_game['deaths'],
+            'assists': player_game['assists'],
+            'headshots': player_game['hs'],
+            'assists': player_game['assists'],
+            'adr': player_game['adr'],
+        })
+        out.append(new_data)
+    return out
+
+
+def filter_deaths_lt(cs_data, deaths): #lt - less than
+    out = []
+    for player_game in cs_data:
+        if player_game['deaths'] <= deaths:
+            out.append(player_game)
+    return out
+
+def filter_deaths_gt(cs_data, deaths): 
+    out = []
+    for player_game in cs_data:
+        if player_game['deaths'] >= deaths:
+            out.append(player_game)
+    return out
+
+def filter_kills_lt(cs_data, kills): 
+    out = []
+    for player_game in cs_data:
+        player_kills = player_game['kills']
+        if player_kills <= kills:
+            out.append(player_game)
+    return out
+
 kills_filtered = filter_kills_gt(cs_data, kills=50)
 # pprint(kills_filtered)
-players_50_kills = map_player_names(kills_filtered)
-print(players_50_kills)
+players_kills = map_player_names(kills_filtered)
+# print(players_kills)
+
+cs_data_main = map_main_stats(cs_data)
+print(len(players_kills))
+deaths_kills_filtered = filter_deaths_lt(kills_filtered, deaths=20)
+print((map_player_names(deaths_kills_filtered)))
+noobs_kills_filtered = filter_kills_lt(cs_data, kills=20)
+noobs_deaths_filtered = filter_deaths_gt(noobs_kills_filtered, deaths=50)
+print('noobs death filter', (noobs_deaths_filtered))
+print('noobs kill filter', len(noobs_kills_filtered))
