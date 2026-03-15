@@ -82,7 +82,7 @@ def count_player_deaths(cs_data , player_to_find):
 
 d = count_player_deaths(cs_data, 's1mple')
 # print(d)
-def filter_kills_gt(cs_data, kills): #gt - greater than
+def filter_kills_gte(cs_data, kills): #gt - greater than, gte - greater than or equal
     out = []
     for player_game in cs_data:
         player_kills = player_game['kills']
@@ -110,21 +110,21 @@ def map_main_stats(cs_data):
     return out
 
 
-def filter_deaths_lt(cs_data, deaths): #lt - less than
+def filter_deaths_lte(cs_data, deaths): #lt - less than , lte - less than or equal
     out = []
     for player_game in cs_data:
         if player_game['deaths'] <= deaths:
             out.append(player_game)
     return out
 
-def filter_deaths_gt(cs_data, deaths): 
+def filter_deaths_gte(cs_data, deaths): 
     out = []
     for player_game in cs_data:
         if player_game['deaths'] >= deaths:
             out.append(player_game)
     return out
 
-def filter_kills_lt(cs_data, kills): 
+def filter_kills_lte(cs_data, kills): 
     out = []
     for player_game in cs_data:
         player_kills = player_game['kills']
@@ -132,16 +132,65 @@ def filter_kills_lt(cs_data, kills):
             out.append(player_game)
     return out
 
-kills_filtered = filter_kills_gt(cs_data, kills=50)
+kills_filtered = filter_kills_gte(cs_data, kills=50)
 # pprint(kills_filtered)
 players_kills = map_player_names(kills_filtered)
 # print(players_kills)
 
-cs_data_main = map_main_stats(cs_data)
-print(len(players_kills))
-deaths_kills_filtered = filter_deaths_lt(kills_filtered, deaths=20)
-print((map_player_names(deaths_kills_filtered)))
-noobs_kills_filtered = filter_kills_lt(cs_data, kills=20)
-noobs_deaths_filtered = filter_deaths_gt(noobs_kills_filtered, deaths=50)
-print('noobs death filter', (noobs_deaths_filtered))
-print('noobs kill filter', len(noobs_kills_filtered))
+# cs_data_main = map_main_stats(cs_data)
+# print(len(players_kills))
+# deaths_kills_filtered = filter_deaths_lt(kills_filtered, deaths=20)
+# print((map_player_names(deaths_kills_filtered)))
+# noobs_kills_filtered = filter_kills_lt(cs_data, kills=20)
+# noobs_deaths_filtered = filter_deaths_gt(noobs_kills_filtered, deaths=50)
+# print('noobs death filter', (noobs_deaths_filtered))
+# print('noobs kill filter', len(noobs_kills_filtered))
+
+def filter_assists_gte(cs_data, assists): 
+    out = []
+    for player_game in cs_data:
+        if player_game['assists'] >= assists:
+            out.append(player_game)
+    return out
+
+def filter_assists_lte(cs_data, assists): 
+    out = []
+    for player_game in cs_data:
+        player_assists = player_game['assists']
+        if player_assists <= assists:
+            out.append(player_game)
+    return out
+
+assists_filtered = filter_assists_gte(cs_data, assists=30)
+kills_assists_filtered = filter_kills_lte(assists_filtered, kills=60)
+players_assists = map_player_names(kills_filtered)
+
+
+# cs_data_main = map_main_stats(cs_data)
+# assists_filtered = filter_assists_gt(cs_data, assists=30)
+# noobs_kills_filtered = filter_kills_lt(kills_filtered, kills=60)
+# print('assists filter', (assists_filtered))
+# print('noob kills filter', len(noobs_kills_filtered))
+
+
+def format_players_info(cs_data):
+    out = []
+    for player_game in cs_data:
+        player_name = player_game['player_name']
+        player_deaths = player_game['deaths']
+        player_kills = player_game['kills']
+        player_assists = player_game['assists']
+        player_info = f'{player_name}: {player_kills}; {player_deaths}; {player_assists}'
+        out.append(player_info)
+    return out
+# pprint(format_players_info(kills_assists_filtered))
+
+def filter_player_names(cs_data, player_names):
+    out = []
+    for player_game in cs_data:
+        player_name = player_game['player_name']
+        if player_name in player_names:
+            out.append(player_game)
+    return out
+s1mple_games = filter_player_names(cs_data, ['s1mple', 'electronic'])
+pprint(format_players_info(s1mple_games))
