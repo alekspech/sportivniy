@@ -180,7 +180,7 @@ def format_players_info(cs_data):
         player_deaths = player_game['deaths']
         player_kills = player_game['kills']
         player_assists = player_game['assists']
-        player_info = f'{player_name}: {player_kills}; {player_deaths}; {player_assists}'
+        player_info = f'{player_name}: {player_kills}; {player_assists}; {player_deaths}; {player_game['hs']}'
         out.append(player_info)
     return out
 # pprint(format_players_info(kills_assists_filtered))
@@ -193,4 +193,22 @@ def filter_player_names(cs_data, player_names):
             out.append(player_game)
     return out
 s1mple_games = filter_player_names(cs_data, ['s1mple', 'electronic'])
+# pprint(format_players_info(s1mple_games))
+
+def filter_headshots_gte(cs_data, headshots): 
+    out = []
+    for player_game in cs_data:
+        if player_game['hs'] >= headshots:
+            out.append(player_game)
+    return out
+
+def filter_headshots_lte(cs_data, headshots): 
+    out = []
+    for player_game in cs_data:
+        player_headshots = player_game['hs']
+        if player_headshots <= headshots:
+            out.append(player_game)
+    return out
+s1mple_kills_filtered = filter_kills_gte(cs_data, kills=20)
+kills_assists_filtered = filter_headshots_gte(s1mple_kills_filtered, headshots=10)
 pprint(format_players_info(s1mple_games))
