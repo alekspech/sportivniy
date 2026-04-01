@@ -229,4 +229,12 @@ def filter_adr_lte(cs_data, adr):
     return out
 deaths_filtered = filter_deaths_gte(cs_data, deaths=30)
 adr_filtered = filter_adr_lte(deaths_filtered, adr=55)
-pprint(format_players_info(deaths_filtered))
+# pprint(format_players_info(deaths_filtered))
+
+player_filtered = filter_player_names(cs_data, ['s1mple', 'ZywOo'])
+player_filtered = sorted(player_filtered, key=lambda x: x['kills'], reverse=True)
+format_games = format_players_info(player_filtered)
+# pprint(format_games)
+sort_all = sorted(cs_data, key=lambda x: (x['kills'], x['assists']))
+pprint(format_players_info(sort_all[-5:]))
+pprint(format_players_info(sort_all[:5]))
