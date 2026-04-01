@@ -209,6 +209,24 @@ def filter_headshots_lte(cs_data, headshots):
         if player_headshots <= headshots:
             out.append(player_game)
     return out
-s1mple_kills_filtered = filter_kills_gte(cs_data, kills=20)
-kills_assists_filtered = filter_headshots_gte(s1mple_kills_filtered, headshots=10)
-pprint(format_players_info(s1mple_games))
+# s1mple_kills_filtered = filter_kills_gte(cs_data, kills=20)
+# kills_assists_filtered = filter_headshots_gte(s1mple_kills_filtered, headshots=10)
+# pprint(format_players_info(s1mple_games))
+
+def filter_adr_gte(cs_data, adr): 
+    out = []
+    for player_game in cs_data:
+        if player_game['adr'] >= adr:
+            out.append(player_game)
+    return out
+
+def filter_adr_lte(cs_data, adr): 
+    out = []
+    for player_game in cs_data:
+        player_adr = player_game['adr']
+        if player_adr <= adr:
+            out.append(player_game)
+    return out
+deaths_filtered = filter_deaths_gte(cs_data, deaths=30)
+adr_filtered = filter_adr_lte(deaths_filtered, adr=55)
+pprint(format_players_info(deaths_filtered))
