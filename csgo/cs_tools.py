@@ -1,4 +1,5 @@
 from typing import Dict, List
+from collections import OrderedDict
 
 def crasivoe_name(match: Dict):
     name = f'{match['date']}:{match['team']}:{match['player_name']}'
@@ -33,4 +34,23 @@ def map_player_names(cs_data):
         player_name = cs_data[i]['player_name']
         out.append(player_name)
     out = set(out)
+    return out
+
+def map_main_stats(cs_data):
+    out = []
+    for player_game in cs_data:
+        new_data = OrderedDict({
+            'player_name': player_game['player_name'],
+            'team': player_game['team'],
+            'opponnent': player_game['opponent'],
+            'event_name': player_game['event_name'],
+            'format': player_game['best_of'],
+            'kills': player_game['kills'],
+            'deaths': player_game['deaths'],
+            'assists': player_game['assists'],
+            'headshots': player_game['hs'],
+            'assists': player_game['assists'],
+            'adr': player_game['adr'],
+        })
+        out.append(new_data)
     return out

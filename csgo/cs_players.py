@@ -35,24 +35,7 @@ def filter_kills_gte(cs_data, kills): #gt - greater than, gte - greater than or 
             out.append(player_game)
     return out
 
-def map_main_stats(cs_data):
-    out = []
-    for player_game in cs_data:
-        new_data = OrderedDict({
-            'player_name': player_game['player_name'],
-            'team': player_game['team'],
-            'opponnent': player_game['opponent'],
-            'event_name': player_game['event_name'],
-            'format': player_game['best_of'],
-            'kills': player_game['kills'],
-            'deaths': player_game['deaths'],
-            'assists': player_game['assists'],
-            'headshots': player_game['hs'],
-            'assists': player_game['assists'],
-            'adr': player_game['adr'],
-        })
-        out.append(new_data)
-    return out
+
 
 
 def filter_deaths_lte(cs_data, deaths): #lt - less than , lte - less than or equal
@@ -180,6 +163,14 @@ player_filtered = filter_player_names(cs_data, ['s1mple', 'ZywOo'])
 player_filtered = sorted(player_filtered, key=lambda x: x['kills'], reverse=True)
 format_games = format_players_info(player_filtered)
 # pprint(format_games)
-sort_all = sorted(cs_data, key=lambda x: (x['kills'], x['assists']))
-pprint(format_players_info(sort_all[-5:]))
-pprint(format_players_info(sort_all[:5]))
+# sort_all = sorted(cs_data, key=lambda x: (x['kills'], x['assists']))
+# pprint(format_players_info(sort_all[-5:]))
+# pprint(format_players_info(sort_all[:5]))
+
+sort_all = sorted(cs_data, key=lambda x: (x['deaths']), reverse=True)
+# pprint(format_players_info(sort_all[-5:]))
+# pprint(format_players_info(sort_all[:5]))
+
+sort_all = sorted(cs_data, key=lambda x: (x['adr']), reverse=True)
+# pprint(format_players_info(sort_all[-5:]))
+print(sort_all[0])
