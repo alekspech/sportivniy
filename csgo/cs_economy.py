@@ -18,3 +18,17 @@ def format_economy(cs_economy: List[Dict]):
     return out
 
 pprint(format_economy(cs_economy[:10]))
+
+def map_rounds_economy(cs_economy_match:Dict):
+    out_t1 = []
+    out_t2 = []
+    for round in range(1,31):
+        # print(round)
+        t1_key = f'{round}_t1'
+        t2_key = f'{round}_t2'
+        # print(cs_economy_match[t1_key])
+        out_t1.append(cs_economy_match[t1_key])
+        out_t2.append(cs_economy_match[t2_key])
+    return out_t1, out_t2
+
+t1_economy, t2_economy = map_rounds_economy(cs_economy[4])
