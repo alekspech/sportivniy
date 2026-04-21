@@ -54,3 +54,99 @@ def map_main_stats(cs_data):
         })
         out.append(new_data)
     return out
+def count_player_deaths(cs_data , player_to_find):
+    deaths_count = 0
+    for i in range(len(cs_data)):
+        player_name = cs_data[i]['player_name']
+        if player_name == player_to_find:
+            deaths_count += cs_data[i]['deaths']
+    return deaths_count
+def filter_kills_gte(cs_data, kills): #gt - greater than, gte - greater than or equal
+    out = []
+    for player_game in cs_data:
+        player_kills = player_game['kills']
+        if player_kills >= kills:
+            out.append(player_game)
+    return out
+def filter_deaths_lte(cs_data, deaths): #lt - less than , lte - less than or equal
+    out = []
+    for player_game in cs_data:
+        if player_game['deaths'] <= deaths:
+            out.append(player_game)
+    return out
+
+def filter_deaths_gte(cs_data, deaths): 
+    out = []
+    for player_game in cs_data:
+        if player_game['deaths'] >= deaths:
+            out.append(player_game)
+    return out
+
+def filter_kills_lte(cs_data, kills): 
+    out = []
+    for player_game in cs_data:
+        player_kills = player_game['kills']
+        if player_kills <= kills:
+            out.append(player_game)
+    return out
+def filter_assists_gte(cs_data, assists): 
+    out = []
+    for player_game in cs_data:
+        if player_game['assists'] >= assists:
+            out.append(player_game)
+    return out
+
+def filter_assists_lte(cs_data, assists): 
+    out = []
+    for player_game in cs_data:
+        player_assists = player_game['assists']
+        if player_assists <= assists:
+            out.append(player_game)
+    return out
+def format_players_info(cs_data):
+    out = []
+    for player_game in cs_data:
+        player_name = player_game['player_name']
+        player_deaths = player_game['deaths']
+        player_kills = player_game['kills']
+        player_assists = player_game['assists']
+        player_info = f'{player_name}: {player_kills}; {player_assists}; {player_deaths}; {player_game['hs']}'
+        out.append(player_info)
+    return out
+def filter_player_names(cs_data, player_names):
+    out = []
+    for player_game in cs_data:
+        player_name = player_game['player_name']
+        if player_name in player_names:
+            out.append(player_game)
+    return out
+
+def filter_headshots_gte(cs_data, headshots): 
+    out = []
+    for player_game in cs_data:
+        if player_game['hs'] >= headshots:
+            out.append(player_game)
+    return out
+
+def filter_headshots_lte(cs_data, headshots): 
+    out = []
+    for player_game in cs_data:
+        player_headshots = player_game['hs']
+        if player_headshots <= headshots:
+            out.append(player_game)
+    return out
+
+def filter_adr_gte(cs_data, adr): 
+    out = []
+    for player_game in cs_data:
+        if player_game['adr'] >= adr:
+            out.append(player_game)
+    return out
+
+def filter_adr_lte(cs_data, adr): 
+    out = []
+    for player_game in cs_data:
+        player_adr = player_game['adr']
+        if player_adr <= adr:
+            out.append(player_game)
+    return out
