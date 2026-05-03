@@ -71,4 +71,29 @@ sort_all = sorted(cs_data, key=lambda x: (x['deaths']), reverse=True)
 
 sort_all = sorted(cs_data, key=lambda x: (x['adr']), reverse=True)
 # pprint(format_players_info(sort_all[-5:]))
-print(sort_all[0])
+# print(sort_all[0])
+
+def group_player_matches(cs_data):
+    out = {}
+    for player_match in cs_data:
+        name = player_match['player_name']
+        if name not in out:
+            out[name] = []
+        out[name].append(player_match)
+    return out
+
+player_group = group_player_matches(cs_data)
+# pprint(player_group['apEX'])
+
+def group_team_matches(cs_data):
+    out = {}
+    for player_match in cs_data:
+        name = player_match['team']
+        if name not in out:
+            out[name] = []
+        out[name].append(player_match)
+    return out
+
+team_group = group_team_matches(cs_data)
+team_games = team_group['Vitality']
+pprint(cs_tools.map_player_names(team_games))
