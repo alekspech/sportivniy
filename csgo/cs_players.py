@@ -73,27 +73,24 @@ sort_all = sorted(cs_data, key=lambda x: (x['adr']), reverse=True)
 # pprint(format_players_info(sort_all[-5:]))
 # print(sort_all[0])
 
-def group_player_matches(cs_data):
-    out = {}
-    for player_match in cs_data:
-        name = player_match['player_name']
-        if name not in out:
-            out[name] = []
-        out[name].append(player_match)
-    return out
 
-player_group = group_player_matches(cs_data)
+
+player_group = cs_tools.group_player_matches(cs_data)
 # pprint(player_group['apEX'])
 
-def group_team_matches(cs_data):
-    out = {}
-    for player_match in cs_data:
-        name = player_match['team']
-        if name not in out:
-            out[name] = []
-        out[name].append(player_match)
-    return out
 
-team_group = group_team_matches(cs_data)
+
+team_group = cs_tools.group_team_matches(cs_data)
 team_games = team_group['Vitality']
-pprint(cs_tools.map_player_names(team_games))
+# pprint(cs_tools.map_player_names(team_games))
+event_group = cs_tools.group_event(cs_data)
+# pprint(len(event_group['IEM Katowice 2020']))
+# pprint(len(event_group['DreamHack Open Anaheim 2020']))
+# pprint(len(event_group['ESEA MDL Season 33 North America']))
+# event_name = 'ESEA MDL Season 33 North America'
+# event_info = cs_tools.format_event(event_group, event_name)
+# print(event_info)
+# print(event_group.keys())
+for event_name in event_group.keys():
+    event_info = cs_tools.format_event(event_group, event_name)
+    print(event_info)

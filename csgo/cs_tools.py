@@ -150,3 +150,36 @@ def filter_adr_lte(cs_data, adr):
         if player_adr <= adr:
             out.append(player_game)
     return out
+
+def group_player_matches(cs_data):
+    out = {}
+    for player_match in cs_data:
+        name = player_match['player_name']
+        if name not in out:
+            out[name] = []
+        out[name].append(player_match)
+    return out
+
+def group_team_matches(cs_data):
+    out = {}
+    for player_match in cs_data:
+        name = player_match['team']
+        if name not in out:
+            out[name] = []
+        out[name].append(player_match)
+    return out
+def group_event(cs_data):
+    out = {}
+    for player_match in cs_data:
+        name = player_match['event_name']
+        if name not in out:
+            out[name] = []
+        out[name].append(player_match)
+    return out
+
+def format_event(event_group, event_name):
+    event_matches = event_group[event_name]
+    event_players = map_player_names(event_matches)
+    event_teams = map_team_names(event_matches)
+    event_info = f'{event_name}: with {len(event_teams)} teams and {len(event_players)} players'
+    return event_info
