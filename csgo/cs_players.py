@@ -93,4 +93,7 @@ event_group = cs_tools.group_event(cs_data)
 # print(event_group.keys())
 for event_name in event_group.keys():
     event_info = cs_tools.format_event(event_group, event_name)
-    print(event_info)
+    # print(event_info)
+
+# print(cs_tools.format_event_teams(event_group, event_name='IEM Katowice 2020')) 
+print(cs_tools.format_event_matches(event_group, event_name='IEM Katowice 2020'))

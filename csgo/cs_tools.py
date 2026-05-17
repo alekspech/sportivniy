@@ -183,3 +183,32 @@ def format_event(event_group, event_name):
     event_teams = map_team_names(event_matches)
     event_info = f'{event_name}: with {len(event_teams)} teams and {len(event_players)} players'
     return event_info
+
+def format_event_teams(event_group, event_name):
+    event_matches = event_group[event_name]
+    event_teams = group_team_matches(event_matches)
+    event_info = ''
+    for team_name in event_teams.keys():
+        team_matches = event_teams[team_name]
+        team_players = map_player_names(team_matches)
+        event_info += f'{event_name}: {team_name}:{team_players}\n'
+    return event_info
+
+def format_event_matches(event_group, event_name):
+    event_matches = event_group[event_name]
+    event_teams = group_team_matches(event_matches)
+    event_info = ''
+    visited_matches = []
+    for match in event_matches:
+        match_id = match['match_id']
+        if match_id in visited_matches:
+            continue
+        visited_matches.append(match_id)
+        team_1_name = match['team']
+        team_2_name = match['opponent']
+        team_1_matches = event_teams[team_1_name]
+        team_2_matches = event_teams[team_2_name]
+        team_1_players = map_player_names(team_1_matches)
+        team_2_players = map_player_names(team_2_matches)
+        event_info += f'{event_name}: {team_1_name}:{team_1_players} vs {team_2_name}:{team_2_players}\n'
+    return event_info
