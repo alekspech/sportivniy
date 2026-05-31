@@ -96,4 +96,13 @@ for event_name in event_group.keys():
     # print(event_info)
 
 # print(cs_tools.format_event_teams(event_group, event_name='IEM Katowice 2020')) 
-print(cs_tools.format_event_matches(event_group, event_name='IEM Katowice 2020'))
+# print(cs_tools.format_event_matches(event_group, event_name='IEM Katowice 2020'))
+
+
+
+nation_filter = cs_tools.filter_nationality(cs_data, 'Japan')
+nation_players = cs_tools.map_player_names(nation_filter)
+print(nation_players)
+print(len(nation_filter))
+
+

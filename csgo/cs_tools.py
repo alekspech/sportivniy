@@ -212,3 +212,11 @@ def format_event_matches(event_group, event_name):
         team_2_players = map_player_names(team_2_matches)
         event_info += f'{event_name}: {team_1_name}:{team_1_players} vs {team_2_name}:{team_2_players}\n'
     return event_info
+
+def filter_nationality(cs_data, country_name):
+    out = []
+    for i in range(len(cs_data)):
+        nationality = cs_data[i]['country']
+        if nationality == country_name:
+            out.append(cs_data[i])
+    return out
