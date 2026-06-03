@@ -11,7 +11,7 @@ upgrade_wheel_target_angle = 0.0
 pygame.init()
 pygame.font.init()
 
-WIDTH, HEIGHT = 1000, 600
+WIDTH, HEIGHT = 1920, 1080
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Case-Battle Python Edition")
 clock = pygame.time.Clock()
@@ -64,6 +64,8 @@ cases = [
         "items": ["Knife | Karambit", "AK-47 | Fire Serpent", "AWP | Gungnir"]
     }
 ]
+      
+
 
 case_rects = [
     pygame.Rect(80, 150, 240, 180),
@@ -76,6 +78,11 @@ current_tab = "cases"
 tab_cases_rect = pygame.Rect(30, 20, 100, 35)
 tab_inv_rect = pygame.Rect(140, 20, 130, 35)
 tab_upgrade_rect = pygame.Rect(280, 20, 110, 35)
+tab_cases_rect = pygame.Rect(30, 20, 100, 35)
+tab_inv_rect = pygame.Rect(140, 20, 130, 35)
+tab_upgrade_rect = pygame.Rect(280, 20, 110, 35)
+tab_exit_rect = pygame.Rect(400, 20, 90, 35)      
+
 
 # Состояния кейсов
 selected_case = None 
@@ -118,7 +125,7 @@ def roll_item(case_idx):
     return {"name": item_name, "price": ITEM_PRICES[item_name]}
 
 def draw_header():
-    for rect, text, tab_id in [(tab_cases_rect, "Cases", "cases"), (tab_inv_rect, "Inventory", "inventory"), (tab_upgrade_rect, "Upgrade", "upgrade")]:
+    for rect, text, tab_id in [(tab_cases_rect, "Cases", "cases"), (tab_inv_rect, "Inventory", "inventory"), (tab_upgrade_rect, "Upgrade", "upgrade"), (tab_exit_rect, "Exit", "exit")]:
         color = BUTTON_COLOR if current_tab == tab_id else DARK_PANEL
         pygame.draw.rect(screen, color, rect, border_radius=5)
         txt_render = font_sub.render(text, True, WHITE)
@@ -192,6 +199,92 @@ for i in range(len(target_items_list)):
 
 def draw_upgrade_page():
     global upgrade_chance
+    
+    pygame.draw.rect(screen, DARK_PANEL, (30, 110, 280, 150), border_radius=10)
+    lbl1 = font_sub.render("Your Item (Select item in inventory):", True, CARD_TEXT_COLOR)
+    screen.blit(lbl1, (45, 125))
+    
+    if upgrade_selected_inv_idx is not None and upgrade_selected_inv_idx < len(inventory):
+        inv_item = inventory[upgrade_selected_inv_idx]
+        item_txt = font_main.render(inv_item["name"][:22], True, WHITE)
+        price_txt = font_main.render(f"{inv_item['price']:.2f} rub.", True, GREEN)
+        screen.blit(item_txt, (45, 165))
+        screen.blit(price_txt, (45, 205))
+    else:
+        hint = font_sub.render("[ Select item in Inventory ]", True, (100, 100, 110))
+        screen.blit(hint, (45, 175))
+
+    pygame.draw.rect(screen, DARK_PANEL, (700, 80, 280, 480), border_radius=10)
+    
+    for i, name in enumerate(target_items_list):
+        rect = target_rects[i]
+        bg = (40, 35, 55) if upgrade_target_item_name == name else (23, 20, 32)
+        pygame.draw.rect(screen, bg, rect, border_radius=4)
+        n_txt = font_small.render(name[:20], True, WHITE)
+        p_txt = font_small.render(f"{ITEM_PRICES[name]:.0f}r", True, GREEN)
+        screen.blit(n_txt, (rect.x + 6, rect.y + 6))
+        screen.blit(p_txt, (rect.x + 185, rect.y + 6))
+
+    current_val = inventory[upgrade_selected_inv_idx]["price"] if upgrade_selected_inv_idx is not None else 0.0
+    target_val = ITEM_PRICES[upgrade_target_item_name] if upgrade_target_item_name else 0.0
+    
+    if current_val > 0 and target_val > 0:
+        upgrade_chance = (current_val / target_val) * 100.0
+        if upgrade_chance > 100.0: upgrade_chance = 100.0
+    else:
+        upgrade_chance = 0.0
+        
+    # Колесо апгрейда
+    cx, cy = 500, 260
+    radius = 90
+    pygame.draw.circle(screen, (20, 17, 28), (cx, cy), radius)
+    
+    # 1. Желтая линия по периметру
+    yellow_sector_width = int((upgrade_chance / 100.0) * 360)
+    for deg in range(360):
+        rad = math.radians(deg - 90)
+        color = BUTTON_COLOR if deg < yellow_sector_width else (40, 35, 50)
+        tx = cx + int(math.cos(rad) * (radius - 4))
+        ty = cy + int(math.sin(rad) * (radius - 4))
+        pygame.draw.circle(screen, color, (tx, ty), 3)
+
+    # 2. Отрисовка вращающейся стрелки
+    pointer_angle = upgrade_wheel_angle - 90
+    rad_arrow = math.radians(pointer_angle)
+    rad_left = math.radians(pointer_angle - 10)
+    rad_right = math.radians(pointer_angle + 10)
+    
+    p_tip = (cx + int(math.cos(rad_arrow) * (radius - 6)), cy + int(math.sin(rad_arrow) * (radius - 6)))
+    p_left = (cx + int(math.cos(rad_left) * (radius - 30)), cy + int(math.sin(rad_left) * (radius - 30)))
+    p_right = (cx + int(math.cos(rad_right) * (radius - 30)), cy + int(math.sin(rad_right) * (radius - 30)))
+    
+    pygame.draw.polygon(screen, WHITE, [p_tip, p_left, p_right])
+    pygame.draw.circle(screen, WHITE, (cx, cy), 6)
+
+    # Текст процентов по центру
+    chance_txt = font_main.render(f"{upgrade_chance:.2f}%", True, BUTTON_COLOR)
+    lbl_chance = font_sub.render("CHANCE", True, CARD_TEXT_COLOR)
+    screen.blit(chance_txt, (cx - chance_txt.get_width()//2, cy - 35))
+    screen.blit(lbl_chance, (cx - lbl_chance.get_width()//2, cy - 50))
+    
+    # Кнопка с проверкой на ограничение процентов (макс 89.99%)
+    if upgrade_chance > 0 and not upgrade_wheel_animating:
+        if upgrade_chance >= 90.0:
+            pygame.draw.rect(screen, (80, 80, 90), btn_upgrade_action, border_radius=5)
+            err_txt = font_main.render("CHANCE TOO HIGH!", True, RED)
+            screen.blit(err_txt, (btn_upgrade_action.x + btn_upgrade_action.width//2 - err_txt.get_width()//2, btn_upgrade_action.y + 14))
+            
+            hint_txt = font_small.render("(Max allowed chance is 89.99%)", True, CARD_TEXT_COLOR)
+            screen.blit(hint_txt, (500 - hint_txt.get_width()//2, 555))
+        else:
+            pygame.draw.rect(screen, BUTTON_COLOR, btn_upgrade_action, border_radius=5)
+            act_txt = font_main.render("Upgrade", True, WHITE)
+            screen.blit(act_txt, (btn_upgrade_action.x + btn_upgrade_action.width//2 - act_txt.get_width()//2, btn_upgrade_action.y + 14))
+        
+    if upgrade_result_text:
+        res_render = font_main.render(upgrade_result_text, True, upgrade_result_color)
+        screen.blit(res_render, (500 - res_render.get_width()//2, 420))
+
     
     pygame.draw.rect(screen, DARK_PANEL, (30, 110, 280, 150), border_radius=10)
     lbl1 = font_sub.render("Your Item (Click item in inventory to select):", True, CARD_TEXT_COLOR)
@@ -356,6 +449,8 @@ while running:
             elif tab_upgrade_rect.collidepoint(mouse_pos):
                 current_tab = "upgrade"
                 upgrade_result_text = ""
+            elif tab_exit_rect.collidepoint(mouse_pos):
+                running = False
             if current_tab == "cases":
                 for i, rect in enumerate(case_rects):
                     if rect.collidepoint(mouse_pos):
@@ -395,10 +490,9 @@ while running:
                     if rect.collidepoint(mouse_pos):
                         upgrade_target_item_name = target_items_list[i]
                         upgrade_result_text = ""
-                if btn_upgrade_action.collidepoint(mouse_pos) and upgrade_chance > 0:
+                if btn_upgrade_action.collidepoint(mouse_pos) and upgrade_chance < 80:
                     upgrade_wheel_animating = True
-                    # Задаем случайную скорость, чтобы стрелка делала несколько полных кругов
-                    upgrade_wheel_speed = random.uniform(22.0, 30.0) 
+                    upgrade_wheel_speed = random.uniform(22.0, 30.0)
 
     pygame.display.flip()
     clock.tick(60)
