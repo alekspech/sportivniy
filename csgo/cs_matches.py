@@ -39,4 +39,19 @@ def build_matches(cs_data, cs_economy):
     return matches
 
 cs_matches = build_matches(cs_economy=economy, cs_data=data)
-pprint(len(cs_matches[2339385]['players']))
+match = cs_matches[2339391]
+
+def calculate_team_kills(cs_match):
+    out = {}
+    for player_match in cs_match['players']:
+        team_name = player_match['team']
+        if team_name not in out:
+            out[team_name] = 0
+        out[team_name] += player_match['kills']
+    return out
+
+# pprint(calculate_team_kills(match))
+
+for match_id in cs_matches.keys():
+    match = cs_matches[match_id]
+    pprint(calculate_team_kills(match))
