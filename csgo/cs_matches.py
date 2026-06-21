@@ -70,22 +70,55 @@ def calculate_team_deaths(cs_match):
 
 # pprint(calculate_team_kills(match))
 
-for match_id in cs_matches.keys():
-    match = cs_matches[match_id]
+# for match_id in cs_matches.keys():
+#     match = cs_matches[match_id]
     # pprint(calculate_team_kills(match))
     # pprint(calculate_team_assists(match))
     # pprint(calculate_team_deaths(match))
-while True:
-    a = input("Выберите что вывести:"
-        "1 это kills"
-        "2 это deaths"
-        "3 это assists"
-        )
-    if a == '1':
-        pprint(calculate_team_kills(match))
-    elif a == '2':
-        pprint(calculate_team_deaths(match))
-    elif a == '3':
-        pprint(calculate_team_assists(match))
-    else:
-        print('error, choose from 1 to 3 ')
+# while True:
+#     a = input("Выберите что вывести:"
+#         "1 это kills"
+#         "2 это deaths"
+#         "3 это assists"
+#         )
+#     if a == '1':
+#         pprint(calculate_team_kills(match))
+#     elif a == '2':
+#         pprint(calculate_team_deaths(match))
+#     elif a == '3':
+#         pprint(calculate_team_assists(match))
+#     else:
+#         print('error, choose from 1 to 3 ')
+
+def calculate_team_stats(cs_match: Dict) -> Dict:
+    stats = {}
+    for player_match in cs_match['players']:
+        team_name = player_match['team']
+        if team_name not in stats:
+            stats[team_name] = {
+                'kills': 0,
+                'deaths': 0,
+                'assists': 0,
+                'players': 0,
+                'min_kills': player_match['kills'],
+                'max_kills': player_match['kills'],
+            }
+        stats[team_name]['kills'] += player_match['kills']
+        stats[team_name]['deaths'] += player_match['deaths']
+        stats[team_name]['assists'] += player_match['assists']
+        stats[team_name]['players'] += 1
+        if player_match['kills'] < stats[team_name]['min_kills']:
+            stats[team_name]['min_kills'] = player_match['kills']
+        if player_match['kills'] > stats[team_name]['max_kills']:
+            stats[team_name]['max_kills'] = player_match['kills']
+    return stats
+pprint(calculate_team_stats(match))
+
+# def calculate_team_win_rounds(cs_match):
+#     out = {}
+#     for team_economy in cs_match['economy']:
+#         team_name = team_economy['team']
+#         if team_name not in out:
+#             out[team_name] = 0
+#         out[team_name] += team_economy['kills']
+#     return out
