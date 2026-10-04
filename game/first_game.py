@@ -1,12 +1,17 @@
 import pygame
+import os
 from varname.helpers import debug
 import random
 from game.player import PlayerKapibara
-from game.bullet import Bullet
-from game.wall import Wall
+from game.bullet import Bullets
+from game.wall import Wall, generate_walls
 from game.npc import NPC
 from game.game_settings import *
 
+log_path = 'log/log.txt'
+os.makedirs('log', exist_ok=True)
+log_file = open(log_path, 'w')
+print(log_path)
 pygame.init()
 if is_fullscreen:
     screen = pygame.display.set_mode(
@@ -24,35 +29,15 @@ bg = pygame.transform.scale(bg, (screen_width, screen_height))
 player = PlayerKapibara(
     img_path=player_img_path,
     player_x=0,
-    player_y=screen_height
-)
-npc1 = NPC(
-    img_path=npc1_img_path,
-    spawn_x=screen_width-100,
-    spawn_y=screen_height,
-    player=player
-)
-npc2 = NPC(
-    img_path=npc2_img_path,
-    spawn_x=screen_width-50,
-    spawn_y=screen_height,
-    player=player
+    player_y=0
 )
 npc_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
-walls_group = pygame.sprite.Group()
-bullets_group = pygame.sprite.Group()
-npc_group.add([npc1, npc2])
+walls_group = generate_walls()
+bullets_group = Bullets()
+    
 player_group.add([player])
-walls_group.add(
-    [
-        Wall(x=-1,y=-2,width=10000,height=2,color='black' ),
-        Wall(x=1,y=screen_height+1,width=10000,height=2,color='black' ),
-        Wall(x=-1,y=1,width=2,height=10000,color='black' ),
-        Wall(x=screen_width+1,y=1,width=2,height=10000,color='black' ),
-    ]
-)
-game_frame_number = 0
+game_frame_number = 0 
 last_npc_spawn_time = 0
 while is_game_running: # основной цикл игры
     dt = clock.tick(60) / 1000
@@ -64,37 +49,90 @@ while is_game_running: # основной цикл игры
     bg_h = screen.get_height()-bg.get_height()
     bg_w = screen.get_width()-bg.get_width()
     screen.blit(bg, (bg_w, bg_h))
-    
-    player_group.update(dt, bullets_group, walls_group)
-    player_group.draw(screen)
-    npc_group.update(dt, bullets_group, walls_group)
-    npc_group.draw(screen)
-    for npc in npc_group:
-        npc.draw_hp(screen)
-        if npc.hp == 0:
-            npc_group.remove(npc)
-    for player in player_group:
-        player.draw_hp(screen)
+    camera_offset = player.world_position - pygame.math.Vector2(
+        screen_width/2,
+        screen_height*3/4
+    )
 
-        if player.hp == 0:
-            player_group.remove(player)
-    walls_group.update()
-    walls_group.draw(screen)
+    player_position_screen = player.world_position - camera_offset
+
+    player_group.update(dt, bullets_group, walls_group, camera_offset, npc_group)
+    npc_group.update(dt, bullets_group, walls_group, camera_offset)
+    for npc in npc_group:
+        npc.draw(screen, camera_offset)
+        npc.draw_hp(screen, camera_offset)
+        if npc.hp <= 0:
+            npc_group.remove(npc)
+            player.kills_count = player.kills_count+1
+        if npc.world_position.y >= 8000:
+            npc_group.remove(npc)
+       
+    for player in player_group:
+        player.draw_hp(screen, camera_offset)
+        player.draw(screen, camera_offset)
+        player.draw_ammo(screen, camera_offset)
+
+        if player.hp <= 0:
+            exit()
     bullets_group.update(dt)
-    bullets_group.draw(screen)
-    text = text_generator.render('{}'.format(player.rect.center), 1,(255,255,255))
+    bullets_group.draw(screen, camera_offset)
+   
+    walls_group.update(bullets_group)
+    walls_group.draw(screen,camera_offset)
+    
+    player_position_str = 'player: {}'.format(player.world_position)
+    text = text_generator.render(
+        player_position_str, 1,(0,0,0)
+        )
     screen.blit(text, dest=(0,0))
-    pygame.display.flip() #отрисовка обьектов
     game_time = pygame.time.get_ticks()
+    game_time_str = 'game time: {}'.format(game_time)
+    text = text_generator.render(
+        game_time_str,
+        1,
+        (0,255,0)
+    )
+    screen.blit(text, dest=(0,30))
+    player_speed_str = 'player speed: {}'.format(player.speed)
+    text = text_generator.render(
+        player_speed_str,
+        1,
+        (255,0,0)
+    )
+    screen.blit(text, dest=(0,60))
+    text = text_generator.render(
+        'fps: {}'.format(int(clock.get_fps())),
+        1,
+        (255,0,0)
+    )
+    screen.blit(text, dest=(0,90))
+    text = text_generator.render(
+        'npc: {}'.format(len(npc_group)),
+        1,
+        (255,0,0)
+    )
+    screen.blit(text, dest=(0,120))
+    text = text_generator.render(
+        'kills: {}'.format(player.kills_count),
+        1,
+        (255,0,0)
+    )
+    screen.blit(text, dest=(0,150))
+    # log_file.write(game_time_str + ', ')
+    # log_file.write(player_position_str + ', ')
+    # log_file.write(player_speed_str + '\n')
+    pygame.display.flip() #отрисовка обьектов
     if game_time - last_npc_spawn_time > npc_spawn_timer * 1000:
         new_npc = NPC(
             img_path=npc1_img_path,
-            spawn_x=screen_width-100,
-            spawn_y=screen_height,
+            spawn_x=player.rect.x + random.randint(300, 1000),
+            spawn_y=player.rect.y,
             player=player
         )
 
         npc_group.add(new_npc)
+        npc_spawn_x = player.rect.x + random.randint(300, 1000)
         last_npc_spawn_time = game_time
     
 pygame.quit()
+log_file.close()

@@ -1,0 +1,11 @@
+[project]
+name = "sportivniy"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "asttokens>=3.0.1",
+    "pygame>=2.6.1",
+    "varname>=1.0.0",
+]
